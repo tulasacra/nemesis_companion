@@ -1,6 +1,6 @@
 {
     "name": "Nemesis Companion",
-    "short_name": "Nemesis",
+    "short_name": "Nemesis Companion",
     "description": "Companion app for the board game Nemesis",
     "start_url": ".",
     "display": "standalone",
