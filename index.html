@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#0d0d14">
+    <title>Nemesis Companion</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="toast"></div>
+
+    <main id="main">
+        <!-- Settings Tab -->
+        <section id="tab-settings" class="tab-content active">
+            <div class="tab-title">
+                <h1>NEMESIS</h1>
+                <span class="subtitle">Companion App</span>
+            </div>
+
+            <div class="card">
+                <label class="card-label">Players</label>
+                <div class="player-selector" id="player-selector">
+                    <button class="player-btn" data-count="1">1</button>
+                    <button class="player-btn selected" data-count="2">2</button>
+                    <button class="player-btn" data-count="3">3</button>
+                    <button class="player-btn" data-count="4">4</button>
+                    <button class="player-btn" data-count="5">5</button>
+                </div>
+            </div>
+
+            <button id="new-game-btn" class="btn-primary">NEW GAME</button>
+        </section>
+
+        <!-- Dice Tab -->
+        <section id="tab-dice" class="tab-content tab-flex">
+            <div class="dice-type-selector">
+                <button class="dice-type-btn selected" data-type="noise">NOISE</button>
+                <button class="dice-type-btn" data-type="damage">DAMAGE</button>
+            </div>
+
+            <div id="die-area">
+                <div id="die">
+                    <span id="die-value">?</span>
+                </div>
+                <div id="die-label">&nbsp;</div>
+            </div>
+
+            <button id="roll-btn" class="btn-primary">ROLL</button>
+        </section>
+
+        <!-- Objectives Tab -->
+        <section id="tab-objectives" class="tab-content">
+            <div class="section-title">Cooperative Objectives</div>
+            <div id="objectives-list"></div>
+        </section>
+
+        <!-- Weakness Tab -->
+        <section id="tab-weakness" class="tab-content">
+            <div class="section-title">Intruder Research</div>
+            <p class="section-desc">Tap a research object to reveal a weakness</p>
+            <div id="research-grid"></div>
+        </section>
+    </main>
+
+    <nav id="tab-bar">
+        <button class="tab-btn active" data-tab="settings">
+            <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="3"/><path d="M12 1v4m0 14v4M4.22 4.22l2.83 2.83m9.9 9.9 2.83 2.83M1 12h4m14 0h4M4.22 19.78l2.83-2.83m9.9-9.9 2.83-2.83"/>
+            </svg>
+            <span class="tab-label">Settings</span>
+        </button>
+        <button class="tab-btn" data-tab="dice">
+            <svg class="tab-icon" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M5 3h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2m3.5 11a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3m7-7a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3m0 7a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3m-7-7a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3M12 10.5a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3"/>
+            </svg>
+            <span class="tab-label">Dice</span>
+        </button>
+        <button class="tab-btn" data-tab="objectives">
+            <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/><path d="m9 14 2 2 4-4"/>
+            </svg>
+            <span class="tab-label">Objectives</span>
+        </button>
+        <button class="tab-btn" data-tab="weakness">
+            <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M9 3h6v7l4.5 7.5a2 2 0 0 1-1.7 3H6.2a2 2 0 0 1-1.7-3L9 10V3z"/><path d="M9 3h6"/>
+            </svg>
+            <span class="tab-label">Weakness</span>
+        </button>
+    </nav>
+
+    <script src="app.js"></script>
+</body>
+</html>

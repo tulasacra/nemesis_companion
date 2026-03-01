@@ -1,0 +1,278 @@
+(function () {
+    'use strict';
+
+    // ===== Game Data =====
+
+    var NOISE_DIE = [
+        { value: '1', label: 'Corridor 1', type: 'number' },
+        { value: '2', label: 'Corridor 2', type: 'number' },
+        { value: '3', label: 'Corridor 3', type: 'number' },
+        { value: '4', label: 'Corridor 4', type: 'number' },
+        { value: '\u2014', label: 'Silence', type: 'silence' },
+        { value: '!', label: 'Danger', type: 'danger' }
+    ];
+
+    var DAMAGE_DIE = [
+        { value: '\u2715', label: 'Miss', type: 'miss' },
+        { value: '1', label: '1 Damage', type: 'hit' },
+        { value: '1', label: '1 Damage', type: 'hit' },
+        { value: '2', label: '2 Damage', type: 'heavy' },
+        { value: '\u00d72', label: 'Double Damage', type: 'double' },
+        { value: '3', label: 'Critical Hit', type: 'critical' }
+    ];
+
+    var COOP_OBJECTIVES = [
+        { name: 'Send the Signal', description: 'Use the Computer in the Communication Room to send the signal before the ship reaches Earth.' },
+        { name: 'Set Coordinates', description: 'Set the ship destination to Earth using the Cockpit computer.' },
+        { name: 'Kill the Queen', description: 'The Intruder Queen must be killed before the game ends.' },
+        { name: 'Destroy the Nest', description: 'The Nest room must be destroyed before the ship arrives.' },
+        { name: 'Research the Weakness', description: 'The Intruder weakness must be discovered through laboratory research.' },
+        { name: 'Protect the Engines', description: 'At least one Engine must remain undamaged when the ship arrives.' },
+        { name: 'Contain the Threat', description: 'There must be no living Intruders on the ship when it reaches its destination.' },
+        { name: 'Collect Specimens', description: 'At least 2 Intruder objects (Egg, Carcass, or Weakness) must be in the Laboratory.' },
+        { name: 'Seal Contaminated Sections', description: 'All rooms containing Slime tokens must have their doors locked.' },
+        { name: 'Everyone Survives', description: 'All crew members must survive and successfully evacuate or hibernate.' }
+    ];
+
+    var WEAKNESSES = [
+        { name: 'Vulnerability to Fire', effect: 'Fire-based attacks deal +1 damage to all Intruders.' },
+        { name: 'Photosensitivity', effect: 'Intruders in fully powered rooms suffer 1 additional damage from all sources.' },
+        { name: 'Thin Exoskeleton', effect: 'All physical attacks deal +1 damage to Intruders.' },
+        { name: 'Chemical Vulnerability', effect: 'Decontamination rooms deal 2 damage to any Intruder passing through.' },
+        { name: 'Acoustic Disruption', effect: 'Noise markers in adjacent corridors force Intruders to retreat one room.' },
+        { name: 'Thermal Instability', effect: 'Malfunctioning rooms deal 1 damage to any Intruder at the end of each round.' }
+    ];
+
+    var RESEARCH_OBJECTS = [
+        { id: 'carcass', name: 'Carcass' },
+        { id: 'egg', name: 'Egg' },
+        { id: 'secretion', name: 'Secretion' }
+    ];
+
+    // ===== State =====
+
+    var numPlayers = 2;
+    var diceType = 'noise';
+    var objectives = [];
+    var research = [null, null, null];
+    var revealed = [false, false, false];
+    var rolling = false;
+
+    // ===== Utility =====
+
+    function shuffle(arr) {
+        var a = arr.slice();
+        for (var i = a.length - 1; i > 0; i--) {
+            var j = Math.floor(Math.random() * (i + 1));
+            var tmp = a[i];
+            a[i] = a[j];
+            a[j] = tmp;
+        }
+        return a;
+    }
+
+    function $(sel) { return document.querySelector(sel); }
+    function $$(sel) { return document.querySelectorAll(sel); }
+
+    // ===== Persistence =====
+
+    var STORAGE_KEY = 'nemesis-companion-state';
+
+    function saveState() {
+        try {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify({
+                numPlayers: numPlayers,
+                objectives: objectives,
+                research: research,
+                revealed: revealed
+            }));
+        } catch (e) { /* storage unavailable */ }
+    }
+
+    function loadState() {
+        try {
+            var raw = localStorage.getItem(STORAGE_KEY);
+            if (!raw) return false;
+            var saved = JSON.parse(raw);
+            if (saved && typeof saved.numPlayers === 'number') {
+                numPlayers = saved.numPlayers;
+                objectives = saved.objectives || [];
+                research = saved.research || [];
+                revealed = saved.revealed || [false, false, false];
+                return true;
+            }
+        } catch (e) { /* parse error */ }
+        return false;
+    }
+
+    // ===== Tab Navigation =====
+
+    function switchTab(id) {
+        $$('.tab-content').forEach(function (el) { el.classList.remove('active'); });
+        $$('.tab-btn').forEach(function (el) { el.classList.remove('active'); });
+        $('#tab-' + id).classList.add('active');
+        $('.tab-btn[data-tab="' + id + '"]').classList.add('active');
+    }
+
+    // ===== Settings =====
+
+    function setPlayerCount(n) {
+        numPlayers = n;
+        $$('.player-btn').forEach(function (btn) {
+            btn.classList.toggle('selected', parseInt(btn.dataset.count) === n);
+        });
+    }
+
+    // ===== New Game =====
+
+    function newGame() {
+        objectives = shuffle(COOP_OBJECTIVES).slice(0, numPlayers);
+        research = shuffle(WEAKNESSES).slice(0, 3);
+        revealed = [false, false, false];
+        renderObjectives();
+        renderResearch();
+        saveState();
+        showToast('New game started!');
+    }
+
+    // ===== Dice =====
+
+    function setDiceType(type) {
+        diceType = type;
+        $$('.dice-type-btn').forEach(function (btn) {
+            btn.classList.toggle('selected', btn.dataset.type === type);
+        });
+        $('#die-value').textContent = '?';
+        $('#die-label').innerHTML = '\u00a0';
+        $('#die').className = '';
+    }
+
+    function rollDie() {
+        if (rolling) return;
+        rolling = true;
+
+        var faces = diceType === 'noise' ? NOISE_DIE : DAMAGE_DIE;
+        var die = $('#die');
+        var valueEl = $('#die-value');
+        var labelEl = $('#die-label');
+        var btn = $('#roll-btn');
+
+        btn.disabled = true;
+        die.classList.add('rolling');
+        labelEl.innerHTML = '\u00a0';
+
+        var count = 0;
+        var totalFrames = 14;
+        var interval = setInterval(function () {
+            var face = faces[Math.floor(Math.random() * faces.length)];
+            valueEl.textContent = face.value;
+            count++;
+
+            if (count >= totalFrames) {
+                clearInterval(interval);
+                var result = faces[Math.floor(Math.random() * faces.length)];
+                valueEl.textContent = result.value;
+                labelEl.textContent = result.label;
+                die.className = 'result-' + result.type;
+                rolling = false;
+                btn.disabled = false;
+            }
+        }, 50);
+    }
+
+    // ===== Research =====
+
+    function revealResearch(index) {
+        if (revealed[index] || !research[index]) return;
+        revealed[index] = true;
+        renderResearch();
+        saveState();
+    }
+
+    // ===== Rendering =====
+
+    function renderObjectives() {
+        var el = $('#objectives-list');
+        if (!objectives.length) {
+            el.innerHTML = '<p class="placeholder">Press NEW GAME in Settings<br>to assign cooperative objectives</p>';
+            return;
+        }
+        el.innerHTML = objectives.map(function (obj, i) {
+            return '<div class="objective-card">' +
+                '<div class="objective-player">Player ' + (i + 1) + '</div>' +
+                '<div class="objective-name">' + obj.name + '</div>' +
+                '<div class="objective-desc">' + obj.description + '</div>' +
+                '</div>';
+        }).join('');
+    }
+
+    function renderResearch() {
+        var el = $('#research-grid');
+        el.innerHTML = RESEARCH_OBJECTS.map(function (obj, i) {
+            var isRevealed = revealed[i];
+            var weakness = research[i];
+
+            if (isRevealed && weakness) {
+                return '<div class="research-card revealed">' +
+                    '<div class="research-name">' + obj.name + '</div>' +
+                    '<div class="research-status">RESEARCHED</div>' +
+                    '<div class="weakness-name">' + weakness.name + '</div>' +
+                    '<div class="weakness-effect">' + weakness.effect + '</div>' +
+                    '</div>';
+            }
+
+            return '<div class="research-card" data-index="' + i + '">' +
+                '<div class="research-name">' + obj.name + '</div>' +
+                '<div class="research-unknown">?</div>' +
+                '<div class="research-hint">Tap to research</div>' +
+                '</div>';
+        }).join('');
+
+        el.querySelectorAll('.research-card:not(.revealed)').forEach(function (card) {
+            card.addEventListener('click', function () {
+                revealResearch(parseInt(card.dataset.index));
+            });
+        });
+    }
+
+    // ===== Toast =====
+
+    function showToast(msg) {
+        var toast = $('#toast');
+        toast.textContent = msg;
+        toast.classList.add('show');
+        setTimeout(function () { toast.classList.remove('show'); }, 2000);
+    }
+
+    // ===== Init =====
+
+    function init() {
+        $$('.tab-btn').forEach(function (btn) {
+            btn.addEventListener('click', function () { switchTab(btn.dataset.tab); });
+        });
+
+        $$('.player-btn').forEach(function (btn) {
+            btn.addEventListener('click', function () { setPlayerCount(parseInt(btn.dataset.count)); });
+        });
+
+        $('#new-game-btn').addEventListener('click', newGame);
+
+        $$('.dice-type-btn').forEach(function (btn) {
+            btn.addEventListener('click', function () { setDiceType(btn.dataset.type); });
+        });
+
+        $('#roll-btn').addEventListener('click', rollDie);
+        $('#die').addEventListener('click', rollDie);
+
+        var hadSavedState = loadState();
+        if (!hadSavedState) {
+            research = shuffle(WEAKNESSES).slice(0, 3);
+        }
+
+        setPlayerCount(numPlayers);
+        renderObjectives();
+        renderResearch();
+    }
+
+    document.addEventListener('DOMContentLoaded', init);
+})();
