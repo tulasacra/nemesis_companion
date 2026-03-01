@@ -1,5 +1,5 @@
-# nemesis_companion
-for personal use, unofficial fan content
+# Nemesis Companion
+For personal use, unofficial fan app.
 
 A mobile-friendly companion app for the board game **Nemesis**.
 
