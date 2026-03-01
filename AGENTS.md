@@ -2,11 +2,9 @@
 
 ## Cursor Cloud specific instructions
 
-This repository (`nemesis_companion`) is currently an empty project — it contains only a `README.md`. There are no source files, dependencies, build tools, services, or tests.
+Static HTML/CSS/JS companion app for the board game Nemesis. No build step, no dependencies.
 
-- **Languages/Frameworks:** None yet.
-- **Build/Run:** No build or run commands available.
-- **Lint/Test:** No linting or testing configured.
-- **Services:** No services to start.
-
-Once code is added, update this section with relevant development instructions.
+- **Run locally:** `python3 -m http.server 8080` from repo root, then open `http://localhost:8080`
+- **Deploy:** GitHub Pages from main branch, root folder. See `README.md` for details.
+- **Lint/Test:** No linter or test framework configured. Validate manually in a browser.
+- **Tech:** Vanilla HTML + CSS + JS. No npm, no bundler, no framework.
