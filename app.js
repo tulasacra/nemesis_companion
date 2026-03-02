@@ -201,6 +201,8 @@
                 (obj.flavor ? '<div class="objective-flavor">' + obj.flavor + '</div>' : '') +
                 '</div>';
         }).join('');
+        var footer = $('#objectives-footer');
+        if (footer) footer.style.display = objectives.length > 1 ? '' : 'none';
     }
 
     function renderResearch() {
