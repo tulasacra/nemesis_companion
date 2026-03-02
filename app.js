@@ -66,9 +66,9 @@
 
     var TOKEN_INNER = {
         blank:   '<circle cx="12" cy="12" r="9"/>',
-        larva:   '<circle cx="12" cy="12" r="9"/><line x1="8" y1="12" x2="16" y2="12"/>',
-        // 240° arc (missing bottom 120°): starts at 330°, ends at 210°, large-arc CCW
-        creeper: '<path d="M19.79 16.5A9 9 0 1 0 4.21 16.5"/>',
+        larva:   '<circle cx="12" cy="12" r="9"/><line x1="8.8" y1="12" x2="15.2" y2="12"/>',
+        // outer circle + inner 240° arc (missing bottom 120°) at r=5.5
+        creeper: '<circle cx="12" cy="12" r="9"/><path d="M16.76 14.75A5.5 5.5 0 1 0 7.24 14.75"/>',
         adult:   '<polyline points="' + SPIRAL_360 + '"/><polyline points="' + SPIRAL_360_ARM2 + '"/>',
         // Triple spiral: one 270° arm rotated at 0°, 120°, 240°
         breeder: '<polyline points="' + SPIRAL_270 + '"/>' +
