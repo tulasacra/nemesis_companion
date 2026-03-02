@@ -510,6 +510,13 @@ main {
     font-weight: 900;
     color: var(--text-muted);
     transition: color 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#bag-drawn svg {
+    display: block;
 }
 
 #bag-drawn.type-blank { color: var(--text-muted); }
@@ -554,6 +561,27 @@ main {
 
 .bag-token-row:last-child {
     border-bottom: none;
+}
+
+.bag-token-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.bag-token-icon {
+    width: 22px;
+    height: 22px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.bag-token-icon svg {
+    width: 22px;
+    height: 22px;
+    display: block;
 }
 
 .bag-token-name {
@@ -601,12 +629,12 @@ main {
     padding-top: 8px;
 }
 
-.bag-token-name.type-blank { color: var(--text-muted); }
-.bag-token-name.type-larva { color: #88cc44; }
-.bag-token-name.type-creeper { color: #ccaa00; }
-.bag-token-name.type-adult { color: var(--hit); }
-.bag-token-name.type-breeder { color: var(--danger); }
-.bag-token-name.type-queen { color: var(--critical); }
+.bag-token-label.type-blank { color: var(--text-muted); }
+.bag-token-label.type-larva { color: #88cc44; }
+.bag-token-label.type-creeper { color: #ccaa00; }
+.bag-token-label.type-adult { color: var(--hit); }
+.bag-token-label.type-breeder { color: var(--danger); }
+.bag-token-label.type-queen { color: var(--critical); }
 
 .btn-secondary {
     display: block;
