@@ -351,7 +351,8 @@
 
     function renderBag() {
         var el = $('#bag-tokens');
-        var total = bagTotal();
+        var intruderTotal = 0;
+        for (var k in bag) { if (k !== 'blank') intruderTotal += bag[k]; }
         el.innerHTML = BAG_TOKEN_TYPES.map(function (t) {
             var count = bag[t.id] || 0;
             return '<div class="bag-token-row">' +
@@ -363,7 +364,7 @@
                 '</div>' +
                 '</div>';
         }).join('') +
-        '<div class="bag-total">Total: ' + total + '</div>';
+        '<div class="bag-total">Total Intruders: ' + intruderTotal + '</div>';
 
         el.querySelectorAll('.bag-btn').forEach(function (btn) {
             btn.addEventListener('click', function () {
