@@ -22,13 +22,13 @@
     ];
 
     var COOP_OBJECTIVES = [
-        { name: 'No Man Left Behind', description: 'Send the Signal AND all Rooms on the ship must be explored.' },
-        { name: 'Clean-Up Crew', description: 'Send the Signal AND the Nest must have been destroyed. OR Send the Signal AND the ship must have been destroyed.' },
-        { name: 'Special Delivery', description: 'Finish the game in Escape Pod or Hibernation with an Intruder Egg Object.' },
-        { name: 'Emergency Post-Mortem', description: 'Place the blue Character Corpse Object in the Surgery Room.' },
-        { name: 'Cutting Off the Head', description: 'Send the Signal AND the Queen must have been killed. OR Send the Signal AND the ship must have been destroyed.' },
-        { name: 'Destination: Earth', description: 'The ship must reach Earth.' },
-        { name: 'First Contact Protocol', description: 'At least 2 Intruder Weaknesses must be discovered.' }
+        { name: 'No Man Left Behind', description: 'Send the Signal AND all Rooms on the ship must be explored.', flavor: 'There are some empty hibernation pods here. We need to make sure everyone is accounted for.' },
+        { name: 'Clean-Up Crew', description: 'Send the Signal AND the Nest must have been destroyed. OR Send the Signal AND the ship must have been destroyed.', flavor: 'When the briefing mentioned \'sanitizing the interior\', I had something quite different in mind...' },
+        { name: 'Special Delivery', description: 'Finish the game in Escape Pod or Hibernation with an Intruder Egg Object.', flavor: 'I know a guy in New Tokyo who keeps buying all this weird s**t from deep space crews...' },
+        { name: 'Emergency Post-Mortem', description: 'Place the blue Character Corpse Object in the Surgery Room.', flavor: 'Whatever happened to our friend might be happening to us next.' },
+        { name: 'Cutting Off the Head', description: 'Send the Signal AND the Queen must have been killed. OR Send the Signal AND the ship must have been destroyed.', flavor: 'In a no-win situation, the least you can do is to go out with a bang.' },
+        { name: 'Destination: Earth', description: 'The ship must reach Earth.', flavor: 'They\'ve sent us out there to die. Now they should clean their own mess.' },
+        { name: 'First Contact Protocol', description: 'At least 2 Intruder Weaknesses must be discovered.', flavor: '11.8b \u2013 Involved parties are NOT allowed to break contact until enough operable knowledge is gathered.' }
     ];
 
     var WEAKNESSES = [
@@ -198,6 +198,7 @@
             return '<div class="objective-card">' +
                 '<div class="objective-name">' + (i + 1) + '. ' + obj.name + '</div>' +
                 '<div class="objective-desc">' + obj.description + '</div>' +
+                (obj.flavor ? '<div class="objective-flavor">' + obj.flavor + '</div>' : '') +
                 '</div>';
         }).join('');
     }

@@ -367,6 +367,15 @@ main {
     line-height: 1.5;
 }
 
+.objective-flavor {
+    font-size: 12px;
+    font-style: italic;
+    color: var(--text-muted);
+    opacity: 0.6;
+    margin-top: 8px;
+    line-height: 1.4;
+}
+
 /* ===== Weakness / Research Tab ===== */
 
 #research-grid {
