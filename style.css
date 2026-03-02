@@ -404,7 +404,7 @@ main {
     background: var(--card);
     border: 1px solid var(--border);
     border-radius: 12px;
-    padding: 16px 10px;
+    padding: 16px 18px;
     text-align: center;
     cursor: pointer;
     transition: transform 0.2s, border-color 0.3s, background 0.3s;
@@ -414,6 +414,17 @@ main {
     align-items: center;
     justify-content: center;
     gap: 6px;
+}
+
+@media (orientation: portrait) {
+    .research-card {
+        text-align: left;
+        align-items: flex-start;
+    }
+
+    .research-card.revealed {
+        padding: 16px 18px;
+    }
 }
 
 .research-card:not(.revealed):active {
@@ -451,7 +462,7 @@ main {
 }
 
 .research-status {
-    font-size: 8px;
+    font-size: 10px;
     font-weight: 700;
     letter-spacing: 2px;
     color: var(--text-muted);
