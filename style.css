@@ -359,12 +359,22 @@ main {
     font-size: 17px;
     font-weight: 700;
     margin-bottom: 4px;
+    color: var(--accent);
 }
 
 .objective-desc {
     font-size: 13px;
     color: var(--text-muted);
     line-height: 1.5;
+}
+
+.objectives-footer {
+    margin-top: 24px;
+    padding: 16px;
+    font-size: 12px;
+    color: var(--text-muted);
+    line-height: 1.5;
+    opacity: 0.7;
 }
 
 .objective-flavor {
