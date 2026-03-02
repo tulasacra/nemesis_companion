@@ -272,7 +272,7 @@
         return total;
     }
 
-    function drawFromBag() {
+    function drawFromBag(mode) {
         var total = bagTotal();
         if (total === 0) {
             showToast('Bag is empty!');
@@ -295,7 +295,8 @@
         var el = $('#bag-drawn');
         el.textContent = drawn.symbol;
         el.className = 'type-' + drawn.id;
-        $('#bag-drawn-label').textContent = drawn.name;
+        var label = mode === 'encounter' ? 'Encounter' : 'Development';
+        $('#bag-drawn-label').textContent = label + ': ' + drawn.name;
         renderBag();
         saveState();
     }
@@ -358,8 +359,8 @@
         $('#roll-btn').addEventListener('click', rollDie);
         $('#die').addEventListener('click', rollDie);
 
-        $('#draw-btn').addEventListener('click', drawFromBag);
-        $('#bag-drawn').addEventListener('click', drawFromBag);
+        $('#encounter-btn').addEventListener('click', function () { drawFromBag('encounter'); });
+        $('#development-btn').addEventListener('click', function () { drawFromBag('development'); });
         $('#bag-reset-btn').addEventListener('click', function () {
             resetBag();
             showToast('Bag reset!');

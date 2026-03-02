@@ -618,6 +618,15 @@ main {
     opacity: 0.85;
 }
 
+.bag-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+.bag-buttons .btn-primary {
+    flex: 1;
+}
+
 /* ===== Toast ===== */
 
 #toast {
