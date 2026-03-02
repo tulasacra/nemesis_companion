@@ -66,6 +66,23 @@
         <section id="tab-weakness" class="tab-content">
             <div id="research-grid"></div>
         </section>
+
+        <!-- Intruder Bag Tab -->
+        <section id="tab-bag" class="tab-content tab-flex">
+            <div id="bag-result-area">
+                <div id="bag-drawn">?</div>
+                <div id="bag-drawn-label">&nbsp;</div>
+            </div>
+
+            <button id="draw-btn" class="btn-primary">DRAW</button>
+
+            <div id="bag-contents">
+                <label class="card-label">Bag Contents</label>
+                <div id="bag-tokens"></div>
+            </div>
+
+            <button id="bag-reset-btn" class="btn-secondary">RESET BAG</button>
+        </section>
     </main>
 
     <nav id="tab-bar">
@@ -92,6 +109,12 @@
                 <path d="M7 4c0 3 2 5 5 5s5 2 5 5-2 5-5 5-5 2-5 5"/><path d="M17 4c0 3-2 5-5 5s-5 2-5 5 2 5 5 5 5 2 5 5"/><line x1="7" y1="7" x2="17" y2="7"/><line x1="7" y1="12" x2="17" y2="12"/><line x1="7" y1="17" x2="17" y2="17"/>
             </svg>
             <span class="tab-label">Weaknesses</span>
+        </button>
+        <button class="tab-btn" data-tab="bag">
+            <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M8 2h8l2 4H6l2-4z"/><path d="M6 6c-1 0-2 1.5-2 3v9a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9c0-1.5-1-3-2-3H6z"/>
+            </svg>
+            <span class="tab-label">Bag</span>
         </button>
     </nav>
 

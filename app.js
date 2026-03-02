@@ -48,6 +48,17 @@
         { id: 'carcass', name: 'Intruder Carcass' }
     ];
 
+    var BAG_TOKEN_TYPES = [
+        { id: 'blank', name: 'Blank', symbol: '\u2014' },
+        { id: 'larva', name: 'Larva', symbol: 'L' },
+        { id: 'creeper', name: 'Creeper', symbol: 'C' },
+        { id: 'adult', name: 'Adult', symbol: 'A' },
+        { id: 'breeder', name: 'Breeder', symbol: 'B' },
+        { id: 'queen', name: 'Queen', symbol: 'Q' }
+    ];
+
+    var DEFAULT_BAG = { blank: 1, larva: 4, creeper: 1, adult: 3, breeder: 1, queen: 1 };
+
     // ===== State =====
 
     var numPlayers = 2;
@@ -55,6 +66,7 @@
     var objectives = [];
     var research = [null, null, null];
     var revealed = [false, false, false];
+    var bag = {};
     var rolling = false;
 
     // ===== Utility =====
@@ -83,7 +95,8 @@
                 numPlayers: numPlayers,
                 objectives: objectives,
                 research: research,
-                revealed: revealed
+                revealed: revealed,
+                bag: bag
             }));
         } catch (e) { /* storage unavailable */ }
     }
@@ -98,6 +111,7 @@
                 objectives = saved.objectives || [];
                 research = saved.research || [];
                 revealed = saved.revealed || [false, false, false];
+                bag = saved.bag || {};
                 return true;
             }
         } catch (e) { /* parse error */ }
@@ -128,6 +142,7 @@
         objectives = shuffle(COOP_OBJECTIVES).slice(0, numPlayers);
         research = shuffle(WEAKNESSES).slice(0, 3);
         revealed = [false, false, false];
+        resetBag();
         renderObjectives();
         renderResearch();
         saveState();
@@ -236,6 +251,81 @@
         });
     }
 
+    // ===== Intruder Bag =====
+
+    function resetBag() {
+        bag = {};
+        for (var k in DEFAULT_BAG) bag[k] = DEFAULT_BAG[k];
+        $('#bag-drawn').textContent = '?';
+        $('#bag-drawn').className = '';
+        $('#bag-drawn-label').innerHTML = '\u00a0';
+        renderBag();
+        saveState();
+    }
+
+    function bagTotal() {
+        var total = 0;
+        for (var k in bag) total += bag[k];
+        return total;
+    }
+
+    function drawFromBag() {
+        var total = bagTotal();
+        if (total === 0) {
+            showToast('Bag is empty!');
+            return;
+        }
+        var roll = Math.floor(Math.random() * total);
+        var cumulative = 0;
+        var drawn = null;
+        for (var i = 0; i < BAG_TOKEN_TYPES.length; i++) {
+            var t = BAG_TOKEN_TYPES[i];
+            cumulative += (bag[t.id] || 0);
+            if (roll < cumulative) {
+                drawn = t;
+                break;
+            }
+        }
+        if (!drawn) return;
+
+        bag[drawn.id]--;
+        var el = $('#bag-drawn');
+        el.textContent = drawn.symbol;
+        el.className = 'type-' + drawn.id;
+        $('#bag-drawn-label').textContent = drawn.name;
+        renderBag();
+        saveState();
+    }
+
+    function adjustBag(id, delta) {
+        bag[id] = Math.max(0, (bag[id] || 0) + delta);
+        renderBag();
+        saveState();
+    }
+
+    function renderBag() {
+        var el = $('#bag-tokens');
+        var total = bagTotal();
+        el.innerHTML = BAG_TOKEN_TYPES.map(function (t) {
+            var count = bag[t.id] || 0;
+            return '<div class="bag-token-row">' +
+                '<span class="bag-token-name type-' + t.id + '">' + t.name + '</span>' +
+                '<div class="bag-token-controls">' +
+                '<button class="bag-btn" data-id="' + t.id + '" data-delta="-1">\u2212</button>' +
+                '<span class="bag-token-count">' + count + '</span>' +
+                '<button class="bag-btn" data-id="' + t.id + '" data-delta="1">+</button>' +
+                '</div>' +
+                '</div>';
+        }).join('') +
+        '<div class="bag-total">Total: ' + total + '</div>';
+
+        el.querySelectorAll('.bag-btn').forEach(function (btn) {
+            btn.addEventListener('click', function () {
+                adjustBag(btn.dataset.id, parseInt(btn.dataset.delta));
+            });
+        });
+    }
+
     // ===== Toast =====
 
     function showToast(msg) {
@@ -265,14 +355,24 @@
         $('#roll-btn').addEventListener('click', rollDie);
         $('#die').addEventListener('click', rollDie);
 
+        $('#draw-btn').addEventListener('click', drawFromBag);
+        $('#bag-drawn').addEventListener('click', drawFromBag);
+        $('#bag-reset-btn').addEventListener('click', function () {
+            resetBag();
+            showToast('Bag reset!');
+        });
+
         var hadSavedState = loadState();
         if (!hadSavedState) {
             research = shuffle(WEAKNESSES).slice(0, 3);
+            resetBag();
         }
+        if (!bag || bagTotal() === undefined) resetBag();
 
         setPlayerCount(numPlayers);
         renderObjectives();
         renderResearch();
+        renderBag();
     }
 
     document.addEventListener('DOMContentLoaded', init);
