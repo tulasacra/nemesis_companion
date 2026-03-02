@@ -419,6 +419,8 @@ main {
     background: rgba(0, 201, 167, 0.06);
     cursor: default;
     animation: revealPop 0.4s ease;
+    justify-content: flex-start;
+    padding-top: 20px;
 }
 
 .research-name {
