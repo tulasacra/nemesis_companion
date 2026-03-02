@@ -417,12 +417,9 @@ main {
 }
 
 @media (orientation: portrait) {
-    .research-card {
+    .research-card.revealed {
         text-align: left;
         align-items: flex-start;
-    }
-
-    .research-card.revealed {
         padding: 16px 18px;
     }
 }
