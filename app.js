@@ -224,8 +224,8 @@
 
             return '<div class="research-card" data-index="' + i + '">' +
                 '<div class="research-name">' + obj.name + '</div>' +
-                '<div class="research-unknown">?</div>' +
                 '<div class="research-hint">Tap to research</div>' +
+                '<div class="research-unknown">?</div>' +
                 '</div>';
         }).join('');
 
