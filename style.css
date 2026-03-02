@@ -422,6 +422,12 @@ main {
         align-items: flex-start;
         padding: 16px 18px;
     }
+
+    .research-card.revealed .research-name,
+    .research-card.revealed .research-status {
+        align-self: center;
+        text-align: center;
+    }
 }
 
 .research-card:not(.revealed):active {
