@@ -32,12 +32,14 @@
     ];
 
     var WEAKNESSES = [
-        { name: 'Vulnerability to Fire', effect: 'Fire-based attacks deal +1 damage to all Intruders.' },
-        { name: 'Photosensitivity', effect: 'Intruders in fully powered rooms suffer 1 additional damage from all sources.' },
-        { name: 'Thin Exoskeleton', effect: 'All physical attacks deal +1 damage to Intruders.' },
-        { name: 'Chemical Vulnerability', effect: 'Decontamination rooms deal 2 damage to any Intruder passing through.' },
-        { name: 'Acoustic Disruption', effect: 'Noise markers in adjacent corridors force Intruders to retreat one room.' },
-        { name: 'Thermal Instability', effect: 'Malfunctioning rooms deal 1 damage to any Intruder at the end of each round.' }
+        { name: 'Reaction to Danger', effect: 'Surprise Attacks are resolved by subtracting 1 from the Intruder token value (always milder result).' },
+        { name: 'Species on the Brink of Extinction', effect: 'All Intruders are killed when they suffer 1 fewer Injury than normal (Adults after 2 instead of 3, Queen after 4 instead of 5, etc.).' },
+        { name: 'Susceptibility to Phosphates', effect: 'Any Intruder affected by a Fire Extinguisher item or the Security Room\'s Fire Control System immediately Retreats from the room. Larvae are killed outright instead of just retreating.' },
+        { name: 'The Way of Fighting', effect: 'Characters gain a combat advantage against Intruders (Intruder Attack cards are resolved less effectively / crew side gets better results in melee).' },
+        { name: 'The Way of Moving', effect: 'Intruders that are not Breeders or the Queen cannot destroy closed doors. When they try to move through a corridor with a closed door, nothing happens (door stays, Intruder stays in place).' },
+        { name: 'Vital Places', effect: 'Intruders are more vulnerable to critical hits \u2014 crosshair/target symbols on Attack or Combat cards deal an extra Injury or enhanced effect.' },
+        { name: 'Vulnerability to Energy', effect: 'Energy-based weapons and effects (e.g. certain crafted items, specific attacks) deal 1 additional Injury to all Intruders.' },
+        { name: 'Vulnerability to Fire', effect: 'Intruders suffer 1 additional Injury for each damage instance from any fire source (Flamethrower, Molotov, fire markers, etc.). Additionally, if fire is present in a room with eggs, 2 eggs are destroyed per turn instead of 1.' }
     ];
 
     var RESEARCH_OBJECTS = [
