@@ -529,6 +529,16 @@ main {
     text-align: center;
 }
 
+#bag-drawn-effect {
+    margin-top: 4px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-muted);
+    min-height: 20px;
+    text-align: center;
+    opacity: 0.8;
+}
+
 #bag-contents {
     margin-top: 20px;
     margin-bottom: 16px;

@@ -262,6 +262,7 @@
         $('#bag-drawn').textContent = '?';
         $('#bag-drawn').className = '';
         $('#bag-drawn-label').innerHTML = '\u00a0';
+        $('#bag-drawn-effect').innerHTML = '\u00a0';
         renderBag();
         saveState();
     }
@@ -291,12 +292,53 @@
         }
         if (!drawn) return;
 
+        // Remove drawn token; Development may return it below
         bag[drawn.id]--;
+
+        var effectText = '\u00a0';
+
+        if (mode === 'development') {
+            switch (drawn.id) {
+                case 'larva':
+                    // Remove Larva, add 1 Adult
+                    bag['adult'] = (bag['adult'] || 0) + 1;
+                    effectText = '+1 Adult added to bag';
+                    break;
+                case 'creeper':
+                    // Remove Creeper, add 1 Breeder
+                    bag['breeder'] = (bag['breeder'] || 0) + 1;
+                    effectText = '+1 Breeder added to bag';
+                    break;
+                case 'adult':
+                    // Return Adult; all players roll for Noise
+                    bag[drawn.id]++;
+                    effectText = 'All players roll for Noise';
+                    break;
+                case 'breeder':
+                    // Return Breeder; all players roll for Noise
+                    bag[drawn.id]++;
+                    effectText = 'All players roll for Noise';
+                    break;
+                case 'queen':
+                    // Return Queen; Nest: place Queen + Encounter / else +1 Egg
+                    bag[drawn.id]++;
+                    effectText = 'Nest: Queen + Encounter \u2014 No Nest: +1 Egg on board';
+                    break;
+                case 'blank':
+                    // Return Blank, add 1 Adult
+                    bag[drawn.id]++;
+                    bag['adult'] = (bag['adult'] || 0) + 1;
+                    effectText = '+1 Adult added to bag';
+                    break;
+            }
+        }
+
         var el = $('#bag-drawn');
         el.textContent = drawn.symbol;
         el.className = 'type-' + drawn.id;
         var label = mode === 'encounter' ? 'Encounter' : 'Development';
         $('#bag-drawn-label').textContent = label + ': ' + drawn.name;
+        $('#bag-drawn-effect').textContent = effectText;
         renderBag();
         saveState();
     }
