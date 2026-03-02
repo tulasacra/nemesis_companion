@@ -196,8 +196,7 @@
         }
         el.innerHTML = objectives.map(function (obj, i) {
             return '<div class="objective-card">' +
-                '<div class="objective-player">Player ' + (i + 1) + '</div>' +
-                '<div class="objective-name">' + obj.name + '</div>' +
+                '<div class="objective-name">' + (i + 1) + '. ' + obj.name + '</div>' +
                 '<div class="objective-desc">' + obj.description + '</div>' +
                 '</div>';
         }).join('');
