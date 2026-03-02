@@ -22,32 +22,44 @@
     ];
 
     var COOP_OBJECTIVES = [
-        { name: 'Send the Signal', description: 'Use the Computer in the Communication Room to send the signal before the ship reaches Earth.' },
-        { name: 'Set Coordinates', description: 'Set the ship destination to Earth using the Cockpit computer.' },
-        { name: 'Kill the Queen', description: 'The Intruder Queen must be killed before the game ends.' },
-        { name: 'Destroy the Nest', description: 'The Nest room must be destroyed before the ship arrives.' },
-        { name: 'Research the Weakness', description: 'The Intruder weakness must be discovered through laboratory research.' },
-        { name: 'Protect the Engines', description: 'At least one Engine must remain undamaged when the ship arrives.' },
-        { name: 'Contain the Threat', description: 'There must be no living Intruders on the ship when it reaches its destination.' },
-        { name: 'Collect Specimens', description: 'At least 2 Intruder objects (Egg, Carcass, or Weakness) must be in the Laboratory.' },
-        { name: 'Seal Contaminated Sections', description: 'All rooms containing Slime tokens must have their doors locked.' },
-        { name: 'Everyone Survives', description: 'All crew members must survive and successfully evacuate or hibernate.' }
+        { name: 'No Man Left Behind', description: 'Send the Signal AND all Rooms on the ship must be explored.', flavor: 'There are some empty hibernation pods here. We need to make sure everyone is accounted for.' },
+        { name: 'Clean-Up Crew', description: 'Send the Signal AND the Nest must have been destroyed. OR Send the Signal AND the ship must have been destroyed.', flavor: 'When the briefing mentioned \'sanitizing the interior\', I had something quite different in mind...' },
+        { name: 'Special Delivery', description: 'Finish the game in Escape Pod or Hibernation with an Intruder Egg Object.', flavor: 'I know a guy in New Tokyo who keeps buying all this weird s**t from deep space crews...' },
+        { name: 'Emergency Post-Mortem', description: 'Place the blue Character Corpse Object in the Surgery Room.', flavor: 'Whatever happened to our friend might be happening to us next.' },
+        { name: 'Cutting Off the Head', description: 'Send the Signal AND the Queen must have been killed. OR Send the Signal AND the ship must have been destroyed.', flavor: 'In a no-win situation, the least you can do is to go out with a bang.' },
+        { name: 'Destination: Earth', description: 'The ship must reach Earth.', flavor: 'They\'ve sent us out there to die. Now they should clean their own mess.' },
+        { name: 'First Contact Protocol', description: 'At least 2 Intruder Weaknesses must be discovered.', flavor: '11.8b \u2013 Involved parties are NOT allowed to break contact until enough operable knowledge is gathered.' }
     ];
 
     var WEAKNESSES = [
-        { name: 'Vulnerability to Fire', effect: 'Fire-based attacks deal +1 damage to all Intruders.' },
-        { name: 'Photosensitivity', effect: 'Intruders in fully powered rooms suffer 1 additional damage from all sources.' },
-        { name: 'Thin Exoskeleton', effect: 'All physical attacks deal +1 damage to Intruders.' },
-        { name: 'Chemical Vulnerability', effect: 'Decontamination rooms deal 2 damage to any Intruder passing through.' },
-        { name: 'Acoustic Disruption', effect: 'Noise markers in adjacent corridors force Intruders to retreat one room.' },
-        { name: 'Thermal Instability', effect: 'Malfunctioning rooms deal 1 damage to any Intruder at the end of each round.' }
+        { name: 'Reaction to Danger', effect: 'Surprise Attacks are resolved by subtracting 1 from the Intruder token value (always milder result).' },
+        { name: 'Species on the Brink of Extinction', effect: 'All Intruders are killed when they suffer 1 fewer Injury than normal (Adults after 2 instead of 3, Queen after 4 instead of 5, etc.).' },
+        { name: 'Susceptibility to Phosphates', effect: 'Any Intruder affected by a Fire Extinguisher item or the Security Room\'s Fire Control System immediately Retreats from the room. Larvae are killed outright instead of just retreating.' },
+        { name: 'The Way of Fighting', effect: 'Characters gain a combat advantage against Intruders (Intruder Attack cards are resolved less effectively / crew side gets better results in melee).' },
+        { name: 'The Way of Moving', effect: 'Intruders that are not Breeders or the Queen cannot destroy closed doors. When they try to move through a corridor with a closed door, nothing happens (door stays, Intruder stays in place).' },
+        { name: 'Vital Places', effect: 'Intruders are more vulnerable to critical hits \u2014 crosshair/target symbols on Attack or Combat cards deal an extra Injury or enhanced effect.' },
+        { name: 'Vulnerability to Energy', effect: 'Energy-based weapons and effects (e.g. certain crafted items, specific attacks) deal 1 additional Injury to all Intruders.' },
+        { name: 'Vulnerability to Fire', effect: 'Intruders suffer 1 additional Injury for each damage instance from any fire source (Flamethrower, Molotov, fire markers, etc.). Additionally, if fire is present in a room with eggs, 2 eggs are destroyed per turn instead of 1.' }
     ];
 
     var RESEARCH_OBJECTS = [
-        { id: 'carcass', name: 'Carcass' },
-        { id: 'egg', name: 'Egg' },
-        { id: 'secretion', name: 'Secretion' }
+        { id: 'corpse', name: 'Character Corpse' },
+        { id: 'egg', name: 'Intruder Egg' },
+        { id: 'carcass', name: 'Intruder Carcass' }
     ];
+
+    var BAG_TOKEN_TYPES = [
+        { id: 'blank', name: 'Blank', symbol: '\u2014' },
+        { id: 'larva', name: 'Larva', symbol: 'L' },
+        { id: 'creeper', name: 'Creeper', symbol: 'C' },
+        { id: 'adult', name: 'Adult', symbol: 'A' },
+        { id: 'breeder', name: 'Breeder', symbol: 'B' },
+        { id: 'queen', name: 'Queen', symbol: 'Q' }
+    ];
+
+    function defaultBag() {
+        return { blank: 1, larva: 4, creeper: 1, adult: 3 + numPlayers, breeder: 0, queen: 1 };
+    }
 
     // ===== State =====
 
@@ -56,6 +68,7 @@
     var objectives = [];
     var research = [null, null, null];
     var revealed = [false, false, false];
+    var bag = {};
     var rolling = false;
 
     // ===== Utility =====
@@ -84,7 +97,8 @@
                 numPlayers: numPlayers,
                 objectives: objectives,
                 research: research,
-                revealed: revealed
+                revealed: revealed,
+                bag: bag
             }));
         } catch (e) { /* storage unavailable */ }
     }
@@ -99,6 +113,7 @@
                 objectives = saved.objectives || [];
                 research = saved.research || [];
                 revealed = saved.revealed || [false, false, false];
+                bag = saved.bag || {};
                 return true;
             }
         } catch (e) { /* parse error */ }
@@ -129,6 +144,7 @@
         objectives = shuffle(COOP_OBJECTIVES).slice(0, numPlayers);
         research = shuffle(WEAKNESSES).slice(0, 3);
         revealed = [false, false, false];
+        resetBag();
         renderObjectives();
         renderResearch();
         saveState();
@@ -199,11 +215,13 @@
         }
         el.innerHTML = objectives.map(function (obj, i) {
             return '<div class="objective-card">' +
-                '<div class="objective-player">Player ' + (i + 1) + '</div>' +
-                '<div class="objective-name">' + obj.name + '</div>' +
+                '<div class="objective-name">' + (i + 1) + '. ' + obj.name + '</div>' +
                 '<div class="objective-desc">' + obj.description + '</div>' +
+                (obj.flavor ? '<div class="objective-flavor">' + obj.flavor + '</div>' : '') +
                 '</div>';
         }).join('');
+        var footer = $('#objectives-footer');
+        if (footer) footer.style.display = objectives.length > 1 ? '' : 'none';
     }
 
     function renderResearch() {
@@ -223,14 +241,91 @@
 
             return '<div class="research-card" data-index="' + i + '">' +
                 '<div class="research-name">' + obj.name + '</div>' +
-                '<div class="research-unknown">?</div>' +
                 '<div class="research-hint">Tap to research</div>' +
+                '<div class="research-unknown">?</div>' +
                 '</div>';
         }).join('');
 
         el.querySelectorAll('.research-card:not(.revealed)').forEach(function (card) {
             card.addEventListener('click', function () {
                 revealResearch(parseInt(card.dataset.index));
+            });
+        });
+    }
+
+    // ===== Intruder Bag =====
+
+    function resetBag() {
+        bag = {};
+        var d = defaultBag();
+        for (var k in d) bag[k] = d[k];
+        $('#bag-drawn').textContent = '?';
+        $('#bag-drawn').className = '';
+        $('#bag-drawn-label').innerHTML = '\u00a0';
+        renderBag();
+        saveState();
+    }
+
+    function bagTotal() {
+        var total = 0;
+        for (var k in bag) total += bag[k];
+        return total;
+    }
+
+    function drawFromBag(mode) {
+        var total = bagTotal();
+        if (total === 0) {
+            showToast('Bag is empty!');
+            return;
+        }
+        var roll = Math.floor(Math.random() * total);
+        var cumulative = 0;
+        var drawn = null;
+        for (var i = 0; i < BAG_TOKEN_TYPES.length; i++) {
+            var t = BAG_TOKEN_TYPES[i];
+            cumulative += (bag[t.id] || 0);
+            if (roll < cumulative) {
+                drawn = t;
+                break;
+            }
+        }
+        if (!drawn) return;
+
+        bag[drawn.id]--;
+        var el = $('#bag-drawn');
+        el.textContent = drawn.symbol;
+        el.className = 'type-' + drawn.id;
+        var label = mode === 'encounter' ? 'Encounter' : 'Development';
+        $('#bag-drawn-label').textContent = label + ': ' + drawn.name;
+        renderBag();
+        saveState();
+    }
+
+    function adjustBag(id, delta) {
+        bag[id] = Math.max(0, (bag[id] || 0) + delta);
+        renderBag();
+        saveState();
+    }
+
+    function renderBag() {
+        var el = $('#bag-tokens');
+        var total = bagTotal();
+        el.innerHTML = BAG_TOKEN_TYPES.map(function (t) {
+            var count = bag[t.id] || 0;
+            return '<div class="bag-token-row">' +
+                '<span class="bag-token-name type-' + t.id + '">' + t.name + '</span>' +
+                '<div class="bag-token-controls">' +
+                '<button class="bag-btn" data-id="' + t.id + '" data-delta="-1">\u2212</button>' +
+                '<span class="bag-token-count">' + count + '</span>' +
+                '<button class="bag-btn" data-id="' + t.id + '" data-delta="1">+</button>' +
+                '</div>' +
+                '</div>';
+        }).join('') +
+        '<div class="bag-total">Total: ' + total + '</div>';
+
+        el.querySelectorAll('.bag-btn').forEach(function (btn) {
+            btn.addEventListener('click', function () {
+                adjustBag(btn.dataset.id, parseInt(btn.dataset.delta));
             });
         });
     }
@@ -264,14 +359,24 @@
         $('#roll-btn').addEventListener('click', rollDie);
         $('#die').addEventListener('click', rollDie);
 
+        $('#encounter-btn').addEventListener('click', function () { drawFromBag('encounter'); });
+        $('#development-btn').addEventListener('click', function () { drawFromBag('development'); });
+        $('#bag-reset-btn').addEventListener('click', function () {
+            resetBag();
+            showToast('Bag reset!');
+        });
+
         var hadSavedState = loadState();
         if (!hadSavedState) {
             research = shuffle(WEAKNESSES).slice(0, 3);
+            resetBag();
         }
+        if (!bag || bagTotal() === undefined) resetBag();
 
         setPlayerCount(numPlayers);
         renderObjectives();
         renderResearch();
+        renderBag();
     }
 
     document.addEventListener('DOMContentLoaded', init);
