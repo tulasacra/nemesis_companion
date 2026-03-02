@@ -22,16 +22,13 @@
     ];
 
     var COOP_OBJECTIVES = [
-        { name: 'Send the Signal', description: 'Use the Computer in the Communication Room to send the signal before the ship reaches Earth.' },
-        { name: 'Set Coordinates', description: 'Set the ship destination to Earth using the Cockpit computer.' },
-        { name: 'Kill the Queen', description: 'The Intruder Queen must be killed before the game ends.' },
-        { name: 'Destroy the Nest', description: 'The Nest room must be destroyed before the ship arrives.' },
-        { name: 'Research the Weakness', description: 'The Intruder weakness must be discovered through laboratory research.' },
-        { name: 'Protect the Engines', description: 'At least one Engine must remain undamaged when the ship arrives.' },
-        { name: 'Contain the Threat', description: 'There must be no living Intruders on the ship when it reaches its destination.' },
-        { name: 'Collect Specimens', description: 'At least 2 Intruder objects (Egg, Carcass, or Weakness) must be in the Laboratory.' },
-        { name: 'Seal Contaminated Sections', description: 'All rooms containing Slime tokens must have their doors locked.' },
-        { name: 'Everyone Survives', description: 'All crew members must survive and successfully evacuate or hibernate.' }
+        { name: 'No Man Left Behind', description: 'Send the Signal AND all Rooms on the ship must be explored.' },
+        { name: 'Clean-Up Crew', description: 'Send the Signal AND the Nest must have been destroyed. OR Send the Signal AND the ship must have been destroyed.' },
+        { name: 'Special Delivery', description: 'Finish the game in Escape Pod or Hibernation with an Intruder Egg Object.' },
+        { name: 'Emergency Post-Mortem', description: 'Place the blue Character Corpse Object in the Surgery Room.' },
+        { name: 'Cutting Off the Head', description: 'Send the Signal AND the Queen must have been killed. OR Send the Signal AND the ship must have been destroyed.' },
+        { name: 'Destination: Earth', description: 'The ship must reach Earth.' },
+        { name: 'First Contact Protocol', description: 'At least 2 Intruder Weaknesses must be discovered.' }
     ];
 
     var WEAKNESSES = [
