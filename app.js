@@ -57,19 +57,16 @@
         { id: 'queen',   name: 'Queen'   }
     ];
 
-    // Archimedean spiral r = (9/2π)·θ, points every 20°
-    // SPIRAL_360: full revolution (center → r=9); SPIRAL_270: 270° (center → r≈6.75)
-    var SPIRAL_360 = '12,12 12.47,11.83 12.77,11.36 12.75,10.70 12.35,10.03 11.57,9.54 10.50,9.40 9.32,9.75 8.24,10.63 7.50,12 7.30,13.71 7.79,15.54 9,17.20 10.87,18.40 13.22,18.89 15.75,18.50 18.13,17.14 19.99,14.91 21,12';
+    // Archimedean spiral r = (9/2π)·θ, points every 20°, 270° arm (center → r≈6.75)
     var SPIRAL_270 = '12,12 12.47,11.83 12.77,11.36 12.75,10.70 12.35,10.03 11.57,9.54 10.50,9.40 9.32,9.75 8.24,10.63 7.50,12 7.30,13.71 7.79,15.54 9,17.20 10.87,18.40';
-    // Adult arm2 is arm1 reflected through centre (x→24-x, y→24-y)
-    var SPIRAL_360_ARM2 = '12,12 11.53,12.17 11.23,12.64 11.25,13.30 11.65,13.97 12.43,14.46 13.50,14.60 14.68,14.25 15.76,13.37 16.50,12 16.70,10.29 16.21,8.46 15,6.80 13.13,5.60 10.78,5.11 8.25,5.50 5.87,6.86 4.01,9.09 3,12';
 
     var TOKEN_INNER = {
         blank:   '<circle cx="12" cy="12" r="9"/>',
         larva:   '<circle cx="12" cy="12" r="9"/><line x1="8.8" y1="12" x2="15.2" y2="12"/>',
         // outer circle + inner 240° arc (missing bottom 120°) at r=5.5
         creeper: '<circle cx="12" cy="12" r="9"/><path d="M15.81 14.2A4.4 4.4 0 1 0 8.19 14.2"/>',
-        adult:   '<polyline points="' + SPIRAL_360 + '"/><polyline points="' + SPIRAL_360_ARM2 + '"/>',
+        // outer circle + one full-period sine wave spanning the diameter (x: 3→21, amplitude 3.5)
+        adult:   '<circle cx="12" cy="12" r="9"/><path d="M3 12C4.64 12 5.86 8.5 7.5 8.5C9.14 8.5 10.36 12 12 12C13.64 12 14.86 15.5 16.5 15.5C18.14 15.5 19.36 12 21 12"/>',
         // Triple spiral: one 270° arm rotated at 0°, 120°, 240°
         breeder: '<polyline points="' + SPIRAL_270 + '"/>' +
                  '<g transform="rotate(120 12 12)"><polyline points="' + SPIRAL_270 + '"/></g>' +
