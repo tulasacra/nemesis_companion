@@ -57,7 +57,9 @@
         { id: 'queen', name: 'Queen', symbol: 'Q' }
     ];
 
-    var DEFAULT_BAG = { blank: 1, larva: 4, creeper: 1, adult: 3, breeder: 1, queen: 1 };
+    function defaultBag() {
+        return { blank: 1, larva: 4, creeper: 1, adult: 3 + numPlayers, breeder: 0, queen: 1 };
+    }
 
     // ===== State =====
 
@@ -255,7 +257,8 @@
 
     function resetBag() {
         bag = {};
-        for (var k in DEFAULT_BAG) bag[k] = DEFAULT_BAG[k];
+        var d = defaultBag();
+        for (var k in d) bag[k] = d[k];
         $('#bag-drawn').textContent = '?';
         $('#bag-drawn').className = '';
         $('#bag-drawn-label').innerHTML = '\u00a0';
