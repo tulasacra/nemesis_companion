@@ -82,10 +82,15 @@ main {
     gap: 3px;
     height: var(--tab-height);
     border: none;
+    border-right: 1px solid var(--border);
     background: none;
     color: var(--text-muted);
     cursor: pointer;
     transition: color 0.2s;
+}
+
+.tab-btn:last-child {
+    border-right: none;
 }
 
 .tab-btn.active {
