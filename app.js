@@ -41,9 +41,9 @@
     ];
 
     var RESEARCH_OBJECTS = [
-        { id: 'carcass', name: 'Carcass' },
-        { id: 'egg', name: 'Egg' },
-        { id: 'secretion', name: 'Secretion' }
+        { id: 'corpse', name: 'Character Corpse' },
+        { id: 'egg', name: 'Intruder Egg' },
+        { id: 'carcass', name: 'Intruder Carcass' }
     ];
 
     // ===== State =====
