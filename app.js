@@ -352,33 +352,33 @@
                 case 'larva':
                     // Remove Larva, add 1 Adult
                     bag['adult'] = (bag['adult'] || 0) + 1;
-                    effectText = '+1 Adult added to bag';
+                    effectText = 'Larva removed, Adult added.';
                     break;
                 case 'creeper':
                     // Remove Creeper, add 1 Breeder
                     bag['breeder'] = (bag['breeder'] || 0) + 1;
-                    effectText = '+1 Breeder added to bag';
+                    effectText = 'Creeper removed, Breeder added.';
                     break;
                 case 'adult':
                     // Return Adult; all players roll for Noise
                     bag[drawn.id]++;
-                    effectText = 'All players roll for Noise';
+                    effectText = 'All out of combat players roll for Noise.';
                     break;
                 case 'breeder':
                     // Return Breeder; all players roll for Noise
                     bag[drawn.id]++;
-                    effectText = 'All players roll for Noise';
+                    effectText = 'All out of combat players roll for Noise.';
                     break;
                 case 'queen':
                     // Return Queen; Nest: place Queen + Encounter / else +1 Egg
                     bag[drawn.id]++;
-                    effectText = 'Nest: Queen + Encounter \u2014 No Nest: +1 Egg on board';
+                    effectText = 'If there are any Characters in the Nest Room, they Encounter the Queen.\nOtherwise, add an additional Egg.';
                     break;
                 case 'blank':
                     // Return Blank, add 1 Adult
                     bag[drawn.id]++;
                     bag['adult'] = (bag['adult'] || 0) + 1;
-                    effectText = '+1 Adult added to bag';
+                    effectText = 'Adult added.';
                     break;
             }
         }

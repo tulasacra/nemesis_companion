@@ -555,6 +555,7 @@ main {
     color: var(--text-muted);
     min-height: 20px;
     text-align: center;
+    white-space: pre-line;
 }
 
 #bag-contents {
