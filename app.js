@@ -315,7 +315,20 @@
         var devBtn = $('#development-btn');
         encBtn.disabled = true;
         devBtn.disabled = true;
-        setTimeout(function () { encBtn.disabled = false; devBtn.disabled = false; }, 3000);
+        setTimeout(function () { encBtn.disabled = false; devBtn.disabled = false; }, 4000);
+
+        // Show ? for 2s, then reveal result
+        var drawnEl = $('#bag-drawn');
+        var labelEl = $('#bag-drawn-label');
+        var nameEl = $('#bag-drawn-name');
+        var effectEl = $('#bag-drawn-effect');
+        labelEl.textContent = '\u00a0';
+        drawnEl.textContent = '?';
+        drawnEl.className = '';
+        nameEl.textContent = '\u00a0';
+        nameEl.className = '';
+        effectEl.textContent = '\u00a0';
+
         var roll = Math.floor(Math.random() * total);
         var cumulative = 0;
         var drawn = null;
@@ -370,16 +383,17 @@
             }
         }
 
-        var el = $('#bag-drawn');
-        el.innerHTML = tokenSvg(drawn.id, 80);
-        el.className = 'type-' + drawn.id;
-        $('#bag-drawn-label').textContent = mode === 'encounter' ? 'ENCOUNTER' : 'DEVELOPMENT';
-        var nameEl = $('#bag-drawn-name');
-        nameEl.textContent = drawn.name.toUpperCase();
-        nameEl.className = 'type-' + drawn.id;
-        $('#bag-drawn-effect').textContent = effectText;
         renderBag();
         saveState();
+
+        setTimeout(function () {
+            labelEl.textContent = mode === 'encounter' ? 'ENCOUNTER' : 'DEVELOPMENT';
+            drawnEl.innerHTML = tokenSvg(drawn.id, 80);
+            drawnEl.className = 'type-' + drawn.id;
+            nameEl.textContent = drawn.name.toUpperCase();
+            nameEl.className = 'type-' + drawn.id;
+            effectEl.textContent = effectText;
+        }, 2000);
     }
 
     function adjustBag(id, delta) {
