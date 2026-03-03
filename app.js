@@ -57,8 +57,6 @@
         { id: 'queen',   name: 'Queen'   }
     ];
 
-    // Archimedean spiral r = (9/2π)·θ, points every 20°, 270° arm (center → r≈6.75)
-    var SPIRAL_270 = '12,12 12.47,11.83 12.77,11.36 12.75,10.70 12.35,10.03 11.57,9.54 10.50,9.40 9.32,9.75 8.24,10.63 7.50,12 7.30,13.71 7.79,15.54 9,17.20 10.87,18.40';
 
     var TOKEN_INNER = {
         blank:   '<circle cx="12" cy="12" r="9"/>',
@@ -74,13 +72,14 @@
                  '<path d="M12 12A4.5 4.5 0 0 1 21 12"/>' +
                  '<g transform="rotate(120 12 12)"><path d="M12 12A4.5 4.5 0 0 1 21 12"/></g>' +
                  '<g transform="rotate(240 12 12)"><path d="M12 12A4.5 4.5 0 0 1 21 12"/></g>',
-        // Same as breeder + 3 dots in the gaps between arms (at 40°, 160°, 280° CW, r=4.5)
-        queen:   '<polyline points="' + SPIRAL_270 + '"/>' +
-                 '<g transform="rotate(120 12 12)"><polyline points="' + SPIRAL_270 + '"/></g>' +
-                 '<g transform="rotate(240 12 12)"><polyline points="' + SPIRAL_270 + '"/></g>' +
-                 '<circle cx="15.45" cy="14.89" r="1.2" fill="currentColor" stroke="none"/>' +
-                 '<circle cx="7.77" cy="13.54" r="1.2" fill="currentColor" stroke="none"/>' +
-                 '<circle cx="12.78" cy="7.57" r="1.2" fill="currentColor" stroke="none"/>'
+        // Same as breeder + 3 filled dots between the arms (at 60°, 180°, 300° CW, r=5)
+        queen:   '<circle cx="12" cy="12" r="9"/>' +
+                 '<path d="M12 12A4.5 4.5 0 0 1 21 12"/>' +
+                 '<g transform="rotate(120 12 12)"><path d="M12 12A4.5 4.5 0 0 1 21 12"/></g>' +
+                 '<g transform="rotate(240 12 12)"><path d="M12 12A4.5 4.5 0 0 1 21 12"/></g>' +
+                 '<circle cx="14.5" cy="16.33" r="1.2" fill="currentColor" stroke="none"/>' +
+                 '<circle cx="7" cy="12" r="1.2" fill="currentColor" stroke="none"/>' +
+                 '<circle cx="14.5" cy="7.67" r="1.2" fill="currentColor" stroke="none"/>'
     };
 
     function tokenSvg(id, size) {
