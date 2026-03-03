@@ -68,12 +68,12 @@
         // outer circle + S-curve of two semicircles (horizontal yin-yang, no dots)
         // left arc CCW → bulges up; right arc CW → bulges down
         adult:   '<circle cx="12" cy="12" r="9"/><path d="M3 12A4.5 4.5 0 0 0 12 12A4.5 4.5 0 0 1 21 12"/>',
-        // outer circle + 3 arcs of r=9 connecting adjacent junction points (120° apart),
-        // sweep=1 (CW) selects the circle centred at (4.21,7.5) whose arc passes through (12,12)
+        // outer circle + 3 semicircles of r=4.5 (= R/2) from centre to each junction (120° apart)
+        // CW (sweep=1): each arm curves upward from centre then out to its junction
         breeder: '<circle cx="12" cy="12" r="9"/>' +
-                 '<path d="M12 3A9 9 0 0 1 4.21 16.5"/>' +
-                 '<g transform="rotate(120 12 12)"><path d="M12 3A9 9 0 0 1 4.21 16.5"/></g>' +
-                 '<g transform="rotate(240 12 12)"><path d="M12 3A9 9 0 0 1 4.21 16.5"/></g>',
+                 '<path d="M12 12A4.5 4.5 0 0 1 21 12"/>' +
+                 '<g transform="rotate(120 12 12)"><path d="M12 12A4.5 4.5 0 0 1 21 12"/></g>' +
+                 '<g transform="rotate(240 12 12)"><path d="M12 12A4.5 4.5 0 0 1 21 12"/></g>',
         // Same as breeder + 3 dots in the gaps between arms (at 40°, 160°, 280° CW, r=4.5)
         queen:   '<polyline points="' + SPIRAL_270 + '"/>' +
                  '<g transform="rotate(120 12 12)"><polyline points="' + SPIRAL_270 + '"/></g>' +
