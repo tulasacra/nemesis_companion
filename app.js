@@ -68,10 +68,8 @@
         // outer circle + S-curve of two semicircles (horizontal yin-yang, no dots)
         // left arc CCW → bulges up; right arc CW → bulges down
         adult:   '<circle cx="12" cy="12" r="9"/><path d="M3 12A4.5 4.5 0 0 0 12 12A4.5 4.5 0 0 1 21 12"/>',
-        // Triple spiral: one 270° arm rotated at 0°, 120°, 240°
-        breeder: '<polyline points="' + SPIRAL_270 + '"/>' +
-                 '<g transform="rotate(120 12 12)"><polyline points="' + SPIRAL_270 + '"/></g>' +
-                 '<g transform="rotate(240 12 12)"><polyline points="' + SPIRAL_270 + '"/></g>',
+        // outer circle + 3 half-circles of r=3, alternating up/down/up
+        breeder: '<circle cx="12" cy="12" r="9"/><path d="M3 12A3 3 0 0 0 9 12A3 3 0 0 1 15 12A3 3 0 0 0 21 12"/>',
         // Same as breeder + 3 dots in the gaps between arms (at 40°, 160°, 280° CW, r=4.5)
         queen:   '<polyline points="' + SPIRAL_270 + '"/>' +
                  '<g transform="rotate(120 12 12)"><polyline points="' + SPIRAL_270 + '"/></g>' +
