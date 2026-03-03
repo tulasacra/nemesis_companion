@@ -309,6 +309,11 @@
             showToast('Bag is empty!');
             return;
         }
+        var encBtn = $('#encounter-btn');
+        var devBtn = $('#development-btn');
+        encBtn.disabled = true;
+        devBtn.disabled = true;
+        setTimeout(function () { encBtn.disabled = false; devBtn.disabled = false; }, 400);
         var roll = Math.floor(Math.random() * total);
         var cumulative = 0;
         var drawn = null;
