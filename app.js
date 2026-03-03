@@ -292,6 +292,8 @@
         $('#bag-drawn').textContent = '?';
         $('#bag-drawn').className = '';
         $('#bag-drawn-label').innerHTML = '\u00a0';
+        $('#bag-drawn-name').innerHTML = '\u00a0';
+        $('#bag-drawn-name').className = '';
         $('#bag-drawn-effect').innerHTML = '\u00a0';
         renderBag();
         saveState();
@@ -371,8 +373,10 @@
         var el = $('#bag-drawn');
         el.innerHTML = tokenSvg(drawn.id, 80);
         el.className = 'type-' + drawn.id;
-        var label = mode === 'encounter' ? 'Encounter' : 'Development';
-        $('#bag-drawn-label').textContent = label + ': ' + drawn.name;
+        $('#bag-drawn-label').textContent = mode === 'encounter' ? 'ENCOUNTER' : 'DEVELOPMENT';
+        var nameEl = $('#bag-drawn-name');
+        nameEl.textContent = drawn.name.toUpperCase();
+        nameEl.className = 'type-' + drawn.id;
         $('#bag-drawn-effect').textContent = effectText;
         renderBag();
         saveState();
