@@ -65,8 +65,9 @@
         larva:   '<circle cx="12" cy="12" r="9"/><line x1="8.8" y1="12" x2="15.2" y2="12"/>',
         // outer circle + inner 240° arc (missing bottom 120°) at r=5.5
         creeper: '<circle cx="12" cy="12" r="9"/><path d="M15.81 14.2A4.4 4.4 0 1 0 8.19 14.2"/>',
-        // outer circle + one full-period sine wave spanning the diameter (x: 3→21, amplitude 3.5)
-        adult:   '<circle cx="12" cy="12" r="9"/><path d="M3 12C4.64 12 5.86 8.5 7.5 8.5C9.14 8.5 10.36 12 12 12C13.64 12 14.86 15.5 16.5 15.5C18.14 15.5 19.36 12 21 12"/>',
+        // outer circle + S-curve of two semicircles (horizontal yin-yang, no dots)
+        // left arc CCW → bulges up; right arc CW → bulges down
+        adult:   '<circle cx="12" cy="12" r="9"/><path d="M3 12A4.5 4.5 0 0 0 12 12A4.5 4.5 0 0 1 21 12"/>',
         // Triple spiral: one 270° arm rotated at 0°, 120°, 240°
         breeder: '<polyline points="' + SPIRAL_270 + '"/>' +
                  '<g transform="rotate(120 12 12)"><polyline points="' + SPIRAL_270 + '"/></g>' +
