@@ -49,13 +49,43 @@
     ];
 
     var BAG_TOKEN_TYPES = [
-        { id: 'blank', name: 'Blank', symbol: '\u2014' },
-        { id: 'larva', name: 'Larva', symbol: 'L' },
-        { id: 'creeper', name: 'Creeper', symbol: 'C' },
-        { id: 'adult', name: 'Adult', symbol: 'A' },
-        { id: 'breeder', name: 'Breeder', symbol: 'B' },
-        { id: 'queen', name: 'Queen', symbol: 'Q' }
+        { id: 'blank',   name: 'Blank'   },
+        { id: 'larva',   name: 'Larva'   },
+        { id: 'creeper', name: 'Creeper' },
+        { id: 'adult',   name: 'Adult'   },
+        { id: 'breeder', name: 'Breeder' },
+        { id: 'queen',   name: 'Queen'   }
     ];
+
+
+    var TOKEN_INNER = {
+        blank:   '<circle cx="12" cy="12" r="9"/>',
+        larva:   '<circle cx="12" cy="12" r="9"/><line x1="8.8" y1="12" x2="15.2" y2="12"/>',
+        // outer circle + inner 240° arc (missing bottom 120°) at r=5.5
+        creeper: '<circle cx="12" cy="12" r="9"/><path d="M15.81 14.2A4.4 4.4 0 1 0 8.19 14.2"/>',
+        // outer circle + S-curve of two semicircles (horizontal yin-yang, no dots)
+        // left arc CCW → bulges up; right arc CW → bulges down
+        adult:   '<circle cx="12" cy="12" r="9"/><path d="M3 12A4.5 4.5 0 0 0 12 12A4.5 4.5 0 0 1 21 12"/>',
+        // outer circle + 3 semicircles of r=4.5 (= R/2) from centre to each junction (120° apart)
+        // CW (sweep=1): each arm curves upward from centre then out to its junction
+        breeder: '<circle cx="12" cy="12" r="9"/>' +
+                 '<path d="M12 12A4.5 4.5 0 0 1 21 12"/>' +
+                 '<g transform="rotate(120 12 12)"><path d="M12 12A4.5 4.5 0 0 1 21 12"/></g>' +
+                 '<g transform="rotate(240 12 12)"><path d="M12 12A4.5 4.5 0 0 1 21 12"/></g>',
+        // Same as breeder + 3 filled dots between the arms (at 60°, 180°, 300° CW, r=5)
+        queen:   '<circle cx="12" cy="12" r="9"/>' +
+                 '<path d="M12 12A4.5 4.5 0 0 1 21 12"/>' +
+                 '<g transform="rotate(120 12 12)"><path d="M12 12A4.5 4.5 0 0 1 21 12"/></g>' +
+                 '<g transform="rotate(240 12 12)"><path d="M12 12A4.5 4.5 0 0 1 21 12"/></g>' +
+                 '<circle cx="16.5" cy="12" r="1.2" fill="currentColor" stroke="none"/>' +
+                 '<circle cx="9.75" cy="15.9" r="1.2" fill="currentColor" stroke="none"/>' +
+                 '<circle cx="9.75" cy="8.1" r="1.2" fill="currentColor" stroke="none"/>'
+    };
+
+    function tokenSvg(id, size) {
+        var attrs = size ? ' width="' + size + '" height="' + size + '"' : '';
+        return '<svg' + attrs + ' viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">' + TOKEN_INNER[id] + '</svg>';
+    }
 
     function defaultBag() {
         return { blank: 1, larva: 4, creeper: 1, adult: 3 + numPlayers, breeder: 0, queen: 1 };
@@ -334,7 +364,7 @@
         }
 
         var el = $('#bag-drawn');
-        el.textContent = drawn.symbol;
+        el.innerHTML = tokenSvg(drawn.id, 80);
         el.className = 'type-' + drawn.id;
         var label = mode === 'encounter' ? 'Encounter' : 'Development';
         $('#bag-drawn-label').textContent = label + ': ' + drawn.name;
@@ -351,11 +381,15 @@
 
     function renderBag() {
         var el = $('#bag-tokens');
-        var total = bagTotal();
+        var intruderTotal = 0;
+        for (var k in bag) { if (k !== 'blank') intruderTotal += bag[k]; }
         el.innerHTML = BAG_TOKEN_TYPES.map(function (t) {
             var count = bag[t.id] || 0;
             return '<div class="bag-token-row">' +
-                '<span class="bag-token-name type-' + t.id + '">' + t.name + '</span>' +
+                '<div class="bag-token-label type-' + t.id + '">' +
+                    '<span class="bag-token-icon">' + tokenSvg(t.id) + '</span>' +
+                    '<span class="bag-token-name">' + t.name + '</span>' +
+                '</div>' +
                 '<div class="bag-token-controls">' +
                 '<button class="bag-btn" data-id="' + t.id + '" data-delta="-1">\u2212</button>' +
                 '<span class="bag-token-count">' + count + '</span>' +
@@ -363,7 +397,7 @@
                 '</div>' +
                 '</div>';
         }).join('') +
-        '<div class="bag-total">Total: ' + total + '</div>';
+        '<div class="bag-total">Total Intruders: ' + intruderTotal + '</div>';
 
         el.querySelectorAll('.bag-btn').forEach(function (btn) {
             btn.addEventListener('click', function () {
