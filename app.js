@@ -313,7 +313,7 @@
         var devBtn = $('#development-btn');
         encBtn.disabled = true;
         devBtn.disabled = true;
-        setTimeout(function () { encBtn.disabled = false; devBtn.disabled = false; }, 400);
+        setTimeout(function () { encBtn.disabled = false; devBtn.disabled = false; }, 700);
         var roll = Math.floor(Math.random() * total);
         var cumulative = 0;
         var drawn = null;
