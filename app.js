@@ -77,9 +77,9 @@
                  '<path d="M12 12A4.5 4.5 0 0 1 21 12"/>' +
                  '<g transform="rotate(120 12 12)"><path d="M12 12A4.5 4.5 0 0 1 21 12"/></g>' +
                  '<g transform="rotate(240 12 12)"><path d="M12 12A4.5 4.5 0 0 1 21 12"/></g>' +
-                 '<circle cx="14.5" cy="16.33" r="1.2" fill="currentColor" stroke="none"/>' +
-                 '<circle cx="7" cy="12" r="1.2" fill="currentColor" stroke="none"/>' +
-                 '<circle cx="14.5" cy="7.67" r="1.2" fill="currentColor" stroke="none"/>'
+                 '<circle cx="16.5" cy="12" r="1.2" fill="currentColor" stroke="none"/>' +
+                 '<circle cx="9.75" cy="15.9" r="1.2" fill="currentColor" stroke="none"/>' +
+                 '<circle cx="9.75" cy="8.1" r="1.2" fill="currentColor" stroke="none"/>'
     };
 
     function tokenSvg(id, size) {
