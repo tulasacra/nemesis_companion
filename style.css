@@ -4,7 +4,7 @@
     --card: #1c1c2e;
     --border: #2a2a40;
     --text: #e0e0ec;
-    --text-muted: #7a7a90;
+    --text-muted: #e0e0ec;
     --accent: #00c9a7;
     --accent-dim: rgba(0, 201, 167, 0.1);
     --danger: #ff4455;
@@ -182,7 +182,6 @@ main {
     text-align: center;
     font-size: 11px;
     color: var(--text-muted);
-    opacity: 0.5;
 }
 
 .btn-primary {
@@ -380,14 +379,12 @@ main {
     font-size: 12px;
     color: var(--text-muted);
     line-height: 1.5;
-    opacity: 0.7;
 }
 
 .objective-flavor {
     font-size: 12px;
     font-style: italic;
     color: var(--text-muted);
-    opacity: 0.6;
     margin-top: 8px;
     line-height: 1.4;
 }
@@ -461,7 +458,6 @@ main {
     font-size: 38px;
     font-weight: 900;
     color: var(--text-muted);
-    opacity: 0.4;
     align-self: center;
 }
 
@@ -470,7 +466,6 @@ main {
     font-weight: 700;
     letter-spacing: 2px;
     color: var(--text-muted);
-    opacity: 0.5;
 }
 
 .research-status {
@@ -560,7 +555,6 @@ main {
     color: var(--text-muted);
     min-height: 20px;
     text-align: center;
-    opacity: 0.8;
 }
 
 #bag-contents {
