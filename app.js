@@ -57,6 +57,20 @@
         { id: 'queen',   name: 'Queen'   }
     ];
 
+    // Surprise encounter: token value = cards in hand needed to avoid Surprise Attack (one value per physical token)
+    var SURPRISE_VALUES = {
+        larva:   [1, 1, 1, 1, 1, 1, 1, 1],
+        creeper: [1, 1, 1],
+        adult:   [2, 2, 2, 2, 3, 3, 3, 3, 3, 4, 4, 4],
+        breeder: [3, 4],
+        queen:   [4]
+    };
+
+    function surpriseValue(tokenId) {
+        var arr = SURPRISE_VALUES[tokenId];
+        return arr ? arr[Math.floor(Math.random() * arr.length)] : null;
+    }
+
 
     var TOKEN_INNER = {
         blank:   '<circle cx="12" cy="12" r="9"/>',
@@ -346,6 +360,7 @@
         bag[drawn.id]--;
 
         var effectText = '\u00a0';
+        var drawnSurpriseValue = null;
 
         if (mode === 'development') {
             switch (drawn.id) {
@@ -391,6 +406,12 @@
                     bag['adult'] = (bag['adult'] || 0) + 1;
                     effectText += '\nAdult added.';
                 }
+            } else {
+                var x = surpriseValue(drawn.id);
+                if (x !== null) {
+                    drawnSurpriseValue = x;
+                    effectText = 'You need at least ' + x + ' card' + (x === 1 ? '' : 's') + ' in hand to avoid a Surprise Attack.';
+                }
             }
         }
 
@@ -398,7 +419,7 @@
             labelEl.textContent = mode === 'encounter' ? 'ENCOUNTER' : 'DEVELOPMENT';
             drawnEl.innerHTML = tokenSvg(drawn.id, 80);
             drawnEl.className = 'type-' + drawn.id;
-            nameEl.textContent = drawn.name.toUpperCase();
+            nameEl.textContent = drawn.name.toUpperCase() + (drawnSurpriseValue !== null ? ' ' + drawnSurpriseValue : '');
             nameEl.className = 'type-' + drawn.id;
             effectEl.textContent = effectText;
             renderBag();
