@@ -324,7 +324,7 @@
         var effectEl = $('#bag-drawn-effect');
         labelEl.textContent = '\u00a0';
         drawnEl.textContent = '?';
-        drawnEl.className = '';
+        drawnEl.className = 'bag-drawn-unknown';
         nameEl.textContent = '\u00a0';
         nameEl.className = '';
         effectEl.textContent = '\u00a0';
@@ -372,7 +372,7 @@
                 case 'queen':
                     // Return Queen; Nest: place Queen + Encounter / else +1 Egg
                     bag[drawn.id]++;
-                    effectText = 'If there are any Characters in the Nest Room, they Encounter the Queen.\nOtherwise, add an additional Egg.';
+                    effectText = 'Characters in the Nest Room, Encounter the Queen.\nOtherwise, add an additional Egg.';
                     break;
                 case 'blank':
                     // Return Blank, add 1 Adult
@@ -383,9 +383,6 @@
             }
         }
 
-        renderBag();
-        saveState();
-
         setTimeout(function () {
             labelEl.textContent = mode === 'encounter' ? 'ENCOUNTER' : 'DEVELOPMENT';
             drawnEl.innerHTML = tokenSvg(drawn.id, 80);
@@ -393,6 +390,8 @@
             nameEl.textContent = drawn.name.toUpperCase();
             nameEl.className = 'type-' + drawn.id;
             effectEl.textContent = effectText;
+            renderBag();
+            saveState();
         }, 2000);
     }
 
