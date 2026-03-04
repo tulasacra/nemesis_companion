@@ -383,6 +383,17 @@
             }
         }
 
+        if (mode === 'encounter') {
+            if (drawn.id === 'blank') {
+                bag['blank'] = (bag['blank'] || 0) + 1;
+                effectText = 'Place a Noise marker in each adjacent Corridor.';
+                if (bagTotal() === 1) {
+                    bag['adult'] = (bag['adult'] || 0) + 1;
+                    effectText += '\nAdult added.';
+                }
+            }
+        }
+
         setTimeout(function () {
             labelEl.textContent = mode === 'encounter' ? 'ENCOUNTER' : 'DEVELOPMENT';
             drawnEl.innerHTML = tokenSvg(drawn.id, 80);
