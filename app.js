@@ -410,7 +410,7 @@
                 var x = surpriseValue(drawn.id);
                 if (x !== null) {
                     drawnSurpriseValue = x;
-                    effectText = 'You need at least ' + x + ' card' + (x === 1 ? '' : 's') + ' in hand to avoid a Surprise Attack.';
+                    effectText = 'At least ' + x + ' card' + (x === 1 ? '' : 's') + ' in hand needed to avoid a Surprise Attack.';
                 }
             }
         }
