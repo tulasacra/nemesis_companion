@@ -229,6 +229,12 @@ main {
     }
 }
 
+@media (orientation: landscape) {
+    #dice-area {
+        align-items: center;
+    }
+}
+
 .die-block {
     display: flex;
     flex-direction: column;
