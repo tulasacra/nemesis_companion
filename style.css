@@ -268,11 +268,18 @@ main {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
     font-size: 52px;
     font-weight: 900;
     color: var(--text-muted);
     transition: color 0.3s;
     line-height: 1;
+}
+
+.die [id$="-value"] svg {
+    display: block;
 }
 
 .die-label {
@@ -285,24 +292,40 @@ main {
     text-align: center;
 }
 
-/* Die result colors */
+/* Die result colors — border and label match value color */
 .die.result-number { border-color: var(--text); }
 .die.result-number [id$="-value"] { color: var(--text); }
+.die.result-number + .die-label { color: var(--text); }
 
 .die.result-silence { border-color: var(--silence); box-shadow: 0 0 24px rgba(0, 201, 167, 0.25); }
 .die.result-silence [id$="-value"] { color: var(--silence); }
+.die.result-silence + .die-label { color: var(--silence); }
 
 .die.result-danger { border-color: var(--danger); box-shadow: 0 0 30px rgba(255, 34, 68, 0.4); }
 .die.result-danger [id$="-value"] { color: var(--danger); }
+.die.result-danger + .die-label { color: var(--danger); }
 
 .die.result-miss { border-color: var(--text-muted); }
 .die.result-miss [id$="-value"] { color: var(--text-muted); }
+.die.result-miss + .die-label { color: var(--text-muted); }
 
-.die.result-hit { border-color: var(--warning); box-shadow: 0 0 20px rgba(255, 170, 0, 0.2); }
-.die.result-hit [id$="-value"] { color: var(--warning); }
+.die.result-hit { border-color: var(--danger); box-shadow: 0 0 24px rgba(255, 68, 85, 0.3); }
+.die.result-hit [id$="-value"] { color: var(--danger); }
+.die.result-hit + .die-label { color: var(--danger); }
 
-.die.result-double { border-color: var(--danger); box-shadow: 0 0 24px rgba(255, 68, 85, 0.3); }
-.die.result-double [id$="-value"] { color: var(--danger); }
+.die.result-double { border-color: var(--critical); box-shadow: 0 0 24px rgba(255, 34, 68, 0.4); }
+.die.result-double [id$="-value"] { color: var(--critical); }
+.die.result-double + .die-label { color: var(--critical); }
+
+.die.result-adult { border-color: var(--hit); }
+.die.result-adult [id$="-value"] { color: var(--hit); }
+.die.result-adult [id$="-value"] svg { transform: translateY(4px); }
+.die.result-adult + .die-label { color: var(--hit); }
+
+.die.result-creeper { border-color: #ccaa00; }
+.die.result-creeper [id$="-value"] { color: #ccaa00; }
+.die.result-creeper [id$="-value"] svg { transform: translateY(4px); }
+.die.result-creeper + .die-label { color: #ccaa00; }
 
 .die.rolling {
     animation: shake 0.5s ease infinite;

@@ -20,11 +20,11 @@
     // d6: Blank (1), Single Hit (1), Double Hit (1), Adult Intruder (1), Creeper Intruder (2)
     var ATTACK_DIE = [
         { value: '', label: 'Miss', type: 'miss' },
-        { value: '\u2295', label: 'Single Hit', type: 'hit' },
+        { value: '\u2295', label: 'Hit', type: 'hit' },
         { value: '\u2295\u2295', label: 'Double Hit', type: 'double' },
-        { value: 'A', label: 'Adult Intruder', type: 'adult' },
-        { value: 'C', label: 'Creeper Intruder', type: 'creeper' },
-        { value: 'C', label: 'Creeper Intruder', type: 'creeper' }
+        { value: null, label: 'Adult', type: 'adult' },
+        { value: null, label: 'Creeper', type: 'creeper' },
+        { value: null, label: 'Creeper', type: 'creeper' }
     ];
 
     var COOP_OBJECTIVES = [
@@ -209,16 +209,31 @@
         labelEl.innerHTML = '\u00a0';
         die.classList.add('rolled', 'rolling');
 
+        function setAttackDieFace(face) {
+            if (face.type === 'adult' || face.type === 'creeper') {
+                valueEl.innerHTML = tokenSvg(face.type, 112);
+            } else {
+                valueEl.textContent = face.value;
+            }
+        }
         var count = 0;
         var totalFrames = 14;
         var interval = setInterval(function () {
             var face = faces[Math.floor(Math.random() * faces.length)];
-            valueEl.textContent = face.value;
+            if (type === 'attack') {
+                setAttackDieFace(face);
+            } else {
+                valueEl.textContent = face.value;
+            }
             count++;
             if (count >= totalFrames) {
                 clearInterval(interval);
                 var result = faces[Math.floor(Math.random() * faces.length)];
-                valueEl.textContent = result.value;
+                if (type === 'attack') {
+                    setAttackDieFace(result);
+                } else {
+                    valueEl.textContent = result.value;
+                }
                 labelEl.textContent = result.label;
                 die.className = 'die result-' + result.type + ' rolled';
                 die.classList.remove('rolling');
