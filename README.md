@@ -6,7 +6,7 @@ A mobile-friendly companion app for the board game **Nemesis**.
 ## Features
 
 - **Settings** — Choose number of players (1-5), start a new game
-- **Dice** — Roll the Noise die or Damage die with animated results
+- **Dice** — Roll the Noise die or Attack die with animated results
 - **Objectives** — Randomly assigns one cooperative objective per player each game
 - **Intruder Research** — Three research objects to tap-reveal random weaknesses
 

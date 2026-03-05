@@ -3,16 +3,21 @@
 
     // ===== Game Data =====
 
+    // d10: corridors 1–4 twice each, 1 silence, 1 danger
     var NOISE_DIE = [
         { value: '1', label: 'Corridor 1', type: 'number' },
+        { value: '1', label: 'Corridor 1', type: 'number' },
+        { value: '2', label: 'Corridor 2', type: 'number' },
         { value: '2', label: 'Corridor 2', type: 'number' },
         { value: '3', label: 'Corridor 3', type: 'number' },
+        { value: '3', label: 'Corridor 3', type: 'number' },
         { value: '4', label: 'Corridor 4', type: 'number' },
-        { value: '\u2014', label: 'Silence', type: 'silence' },
+        { value: '4', label: 'Corridor 4', type: 'number' },
+        { value: 'X', label: 'Silence', type: 'silence' },
         { value: '!', label: 'Danger', type: 'danger' }
     ];
 
-    var DAMAGE_DIE = [
+    var ATTACK_DIE = [
         { value: '\u2715', label: 'Miss', type: 'miss' },
         { value: '1', label: '1 Damage', type: 'hit' },
         { value: '1', label: '1 Damage', type: 'hit' },
@@ -196,7 +201,7 @@
     // ===== Dice =====
 
     function animateDie(type, onDone) {
-        var faces = type === 'noise' ? NOISE_DIE : DAMAGE_DIE;
+        var faces = type === 'noise' ? NOISE_DIE : ATTACK_DIE;
         var die = $('#die-' + type);
         var valueEl = $('#die-' + type + '-value');
         var labelEl = $('#die-' + type + '-label');
@@ -233,7 +238,7 @@
     function rollDie(type) {
         var die = $('#die-' + type);
         if (die.classList.contains('rolling')) return;
-        resetDie(type === 'noise' ? 'damage' : 'noise');
+        resetDie(type === 'noise' ? 'attack' : 'noise');
         animateDie(type, function () {});
     }
 
@@ -487,7 +492,7 @@
         $('#new-game-btn').addEventListener('click', newGame);
 
         $('#die-noise').addEventListener('click', function () { rollDie('noise'); });
-        $('#die-damage').addEventListener('click', function () { rollDie('damage'); });
+        $('#die-attack').addEventListener('click', function () { rollDie('attack'); });
 
         $('#encounter-btn').addEventListener('click', function () { drawFromBag('encounter'); });
         $('#development-btn').addEventListener('click', function () { drawFromBag('development'); });
