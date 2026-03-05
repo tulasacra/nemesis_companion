@@ -41,19 +41,24 @@
 
         <!-- Dice Tab -->
         <section id="tab-dice" class="tab-content tab-flex">
-            <div class="dice-type-selector">
-                <button class="dice-type-btn selected" data-type="noise">NOISE</button>
-                <button class="dice-type-btn" data-type="damage">DAMAGE</button>
-            </div>
-
-            <div id="die-area">
-                <div id="die">
-                    <span id="die-value">?</span>
+            <div id="dice-area">
+                <div class="die-block">
+                    <div class="die-caption">NOISE</div>
+                    <div id="die-noise" class="die">
+                        <span id="die-noise-value">?</span>
+                        <div class="die-hint">Tap to roll</div>
+                    </div>
+                    <div id="die-noise-label" class="die-label">&nbsp;</div>
                 </div>
-                <div id="die-label">&nbsp;</div>
+                <div class="die-block">
+                    <div class="die-caption">DAMAGE</div>
+                    <div id="die-damage" class="die">
+                        <span id="die-damage-value">?</span>
+                        <div class="die-hint">Tap to roll</div>
+                    </div>
+                    <div id="die-damage-label" class="die-label">&nbsp;</div>
+                </div>
             </div>
-
-            <button id="roll-btn" class="btn-primary">ROLL</button>
         </section>
 
         <!-- Objectives Tab -->

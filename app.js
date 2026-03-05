@@ -108,12 +108,10 @@
     // ===== State =====
 
     var numPlayers = 2;
-    var diceType = 'noise';
     var objectives = [];
     var research = [null, null, null];
     var revealed = [false, false, false];
     var bag = {};
-    var rolling = false;
 
     // ===== Utility =====
 
@@ -197,29 +195,13 @@
 
     // ===== Dice =====
 
-    function setDiceType(type) {
-        diceType = type;
-        $$('.dice-type-btn').forEach(function (btn) {
-            btn.classList.toggle('selected', btn.dataset.type === type);
-        });
-        $('#die-value').textContent = '?';
-        $('#die-label').innerHTML = '\u00a0';
-        $('#die').className = '';
-    }
-
-    function rollDie() {
-        if (rolling) return;
-        rolling = true;
-
-        var faces = diceType === 'noise' ? NOISE_DIE : DAMAGE_DIE;
-        var die = $('#die');
-        var valueEl = $('#die-value');
-        var labelEl = $('#die-label');
-        var btn = $('#roll-btn');
-
-        btn.disabled = true;
-        die.classList.add('rolling');
+    function animateDie(type, onDone) {
+        var faces = type === 'noise' ? NOISE_DIE : DAMAGE_DIE;
+        var die = $('#die-' + type);
+        var valueEl = $('#die-' + type + '-value');
+        var labelEl = $('#die-' + type + '-label');
         labelEl.innerHTML = '\u00a0';
+        die.classList.add('rolled', 'rolling');
 
         var count = 0;
         var totalFrames = 14;
@@ -227,17 +209,32 @@
             var face = faces[Math.floor(Math.random() * faces.length)];
             valueEl.textContent = face.value;
             count++;
-
             if (count >= totalFrames) {
                 clearInterval(interval);
                 var result = faces[Math.floor(Math.random() * faces.length)];
                 valueEl.textContent = result.value;
                 labelEl.textContent = result.label;
-                die.className = 'result-' + result.type;
-                rolling = false;
-                btn.disabled = false;
+                die.className = 'die result-' + result.type + ' rolled';
+                die.classList.remove('rolling');
+                onDone();
             }
         }, 50);
+    }
+
+    function resetDie(type) {
+        var die = $('#die-' + type);
+        var valueEl = $('#die-' + type + '-value');
+        var labelEl = $('#die-' + type + '-label');
+        valueEl.textContent = '?';
+        labelEl.innerHTML = '\u00a0';
+        die.className = 'die';
+    }
+
+    function rollDie(type) {
+        var die = $('#die-' + type);
+        if (die.classList.contains('rolling')) return;
+        resetDie(type === 'noise' ? 'damage' : 'noise');
+        animateDie(type, function () {});
     }
 
     // ===== Research =====
@@ -489,12 +486,8 @@
 
         $('#new-game-btn').addEventListener('click', newGame);
 
-        $$('.dice-type-btn').forEach(function (btn) {
-            btn.addEventListener('click', function () { setDiceType(btn.dataset.type); });
-        });
-
-        $('#roll-btn').addEventListener('click', rollDie);
-        $('#die').addEventListener('click', rollDie);
+        $('#die-noise').addEventListener('click', function () { rollDie('noise'); });
+        $('#die-damage').addEventListener('click', function () { rollDie('damage'); });
 
         $('#encounter-btn').addEventListener('click', function () { drawFromBag('encounter'); });
         $('#development-btn').addEventListener('click', function () { drawFromBag('development'); });
