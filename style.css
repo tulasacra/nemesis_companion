@@ -301,14 +301,8 @@ main {
 .die.result-hit { border-color: var(--warning); box-shadow: 0 0 20px rgba(255, 170, 0, 0.2); }
 .die.result-hit [id$="-value"] { color: var(--warning); }
 
-.die.result-heavy { border-color: var(--hit); box-shadow: 0 0 24px rgba(255, 136, 0, 0.25); }
-.die.result-heavy [id$="-value"] { color: var(--hit); }
-
 .die.result-double { border-color: var(--danger); box-shadow: 0 0 24px rgba(255, 68, 85, 0.3); }
 .die.result-double [id$="-value"] { color: var(--danger); }
-
-.die.result-critical { border-color: var(--critical); box-shadow: 0 0 30px rgba(255, 34, 68, 0.4); }
-.die.result-critical [id$="-value"] { color: var(--critical); }
 
 .die.rolling {
     animation: shake 0.5s ease infinite;
@@ -321,19 +315,6 @@ main {
 }
 
 /* ===== Objectives Tab ===== */
-
-.section-title {
-    font-size: 20px;
-    font-weight: 800;
-    letter-spacing: 1px;
-    margin-bottom: 16px;
-}
-
-.section-desc {
-    font-size: 13px;
-    color: var(--text-muted);
-    margin-bottom: 20px;
-}
 
 .placeholder {
     text-align: center;
@@ -357,15 +338,6 @@ main {
 .objective-card:nth-child(4) { animation-delay: 0.15s; }
 .objective-card:nth-child(5) { animation-delay: 0.2s; }
 .objective-card:nth-child(6) { animation-delay: 0.25s; }
-
-.objective-player {
-    font-size: 10px;
-    font-weight: 700;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    color: var(--accent);
-    margin-bottom: 6px;
-}
 
 .objective-name {
     font-size: 17px;
