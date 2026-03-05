@@ -17,13 +17,14 @@
         { value: '!', label: 'Danger', type: 'danger' }
     ];
 
+    // d6: Blank (1), Single Hit (1), Double Hit (1), Adult Intruder (1), Creeper Intruder (2)
     var ATTACK_DIE = [
-        { value: '\u2715', label: 'Miss', type: 'miss' },
-        { value: '1', label: '1 Damage', type: 'hit' },
-        { value: '1', label: '1 Damage', type: 'hit' },
-        { value: '2', label: '2 Damage', type: 'heavy' },
-        { value: '\u00d72', label: 'Double Damage', type: 'double' },
-        { value: '3', label: 'Critical Hit', type: 'critical' }
+        { value: '', label: 'Miss', type: 'miss' },
+        { value: '\u2295', label: 'Single Hit', type: 'hit' },
+        { value: '\u2295\u2295', label: 'Double Hit', type: 'double' },
+        { value: 'A', label: 'Adult Intruder', type: 'adult' },
+        { value: 'C', label: 'Creeper Intruder', type: 'creeper' },
+        { value: 'C', label: 'Creeper Intruder', type: 'creeper' }
     ];
 
     var COOP_OBJECTIVES = [
