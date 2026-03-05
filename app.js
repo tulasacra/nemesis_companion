@@ -5,26 +5,26 @@
 
     // d10: corridors 1–4 twice each, 1 silence, 1 danger
     var NOISE_DIE = [
-        { value: '1', label: 'Corridor 1', type: 'number' },
-        { value: '1', label: 'Corridor 1', type: 'number' },
-        { value: '2', label: 'Corridor 2', type: 'number' },
-        { value: '2', label: 'Corridor 2', type: 'number' },
-        { value: '3', label: 'Corridor 3', type: 'number' },
-        { value: '3', label: 'Corridor 3', type: 'number' },
-        { value: '4', label: 'Corridor 4', type: 'number' },
-        { value: '4', label: 'Corridor 4', type: 'number' },
-        { value: '\u2715', label: 'Silence', type: 'silence' },
-        { value: '!', label: 'Danger', type: 'danger' }
+        { value: '1', label: 'CORRIDOR 1', type: 'number' },
+        { value: '1', label: 'CORRIDOR 1', type: 'number' },
+        { value: '2', label: 'CORRIDOR 2', type: 'number' },
+        { value: '2', label: 'CORRIDOR 2', type: 'number' },
+        { value: '3', label: 'CORRIDOR 3', type: 'number' },
+        { value: '3', label: 'CORRIDOR 3', type: 'number' },
+        { value: '4', label: 'CORRIDOR 4', type: 'number' },
+        { value: '4', label: 'CORRIDOR 4', type: 'number' },
+        { value: '\u2715', label: 'SILENCE', type: 'silence' },
+        { value: '!', label: 'DANGER', type: 'danger' }
     ];
 
     // d6: Blank (1), Single Hit (1), Double Hit (1), Adult Intruder (1), Creeper Intruder (2)
     var ATTACK_DIE = [
-        { value: '', label: 'Miss', type: 'miss' },
-        { value: '\u2295', label: 'Hit', type: 'hit' },
-        { value: '\u2295\u2295', label: 'Double Hit', type: 'double' },
-        { value: null, label: 'Adult', type: 'adult' },
-        { value: null, label: 'Creeper', type: 'creeper' },
-        { value: null, label: 'Creeper', type: 'creeper' }
+        { value: '', label: 'MISS', type: 'miss' },
+        { value: '\u2295', label: 'HIT', type: 'hit' },
+        { value: '\u2295\u2295', label: 'DOUBLE HIT', type: 'double' },
+        { value: null, label: 'ADULT', type: 'adult' },
+        { value: null, label: 'CREEPER', type: 'creeper' },
+        { value: null, label: 'CREEPER', type: 'creeper' }
     ];
 
     var COOP_OBJECTIVES = [

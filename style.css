@@ -214,25 +214,29 @@ main {
 
 #dice-area {
     flex: 1;
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
     gap: 24px;
-    align-items: flex-start;
-    justify-content: center;
+    align-items: center;
+    justify-items: center;
     min-height: 220px;
 }
 
 @media (orientation: portrait) {
     #dice-area {
-        flex-direction: column;
-        align-items: center;
+        grid-template-rows: 1fr 1fr 1fr 1fr 1fr;
+        grid-template-columns: 1fr;
     }
+    #dice-area .die-block:nth-child(1) { grid-row: 2; }
+    #dice-area .die-block:nth-child(2) { grid-row: 4; }
 }
 
 @media (orientation: landscape) {
     #dice-area {
-        align-items: center;
+        grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+        grid-template-rows: 1fr 1fr 1fr 1fr 1fr;
     }
+    #dice-area .die-block:nth-child(1) { grid-column: 2; grid-row: 3; }
+    #dice-area .die-block:nth-child(2) { grid-column: 4; grid-row: 3; }
 }
 
 .die-block {
@@ -293,9 +297,9 @@ main {
 }
 
 /* Die result colors — border and label match value color */
-.die.result-number { border-color: var(--text); }
-.die.result-number [id$="-value"] { color: var(--text); }
-.die.result-number + .die-label { color: var(--text); }
+.die.result-number { border-color: #ccaa00; }
+.die.result-number [id$="-value"] { color: #ccaa00; }
+.die.result-number + .die-label { color: #ccaa00; }
 
 .die.result-silence { border-color: var(--silence); box-shadow: 0 0 24px rgba(0, 201, 167, 0.25); }
 .die.result-silence [id$="-value"] { color: var(--silence); }
