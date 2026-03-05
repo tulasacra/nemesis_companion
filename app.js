@@ -13,7 +13,7 @@
         { value: '3', label: 'Corridor 3', type: 'number' },
         { value: '4', label: 'Corridor 4', type: 'number' },
         { value: '4', label: 'Corridor 4', type: 'number' },
-        { value: 'X', label: 'Silence', type: 'silence' },
+        { value: '\u2715', label: 'Silence', type: 'silence' },
         { value: '!', label: 'Danger', type: 'danger' }
     ];
 

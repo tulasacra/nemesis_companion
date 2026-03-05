@@ -275,22 +275,6 @@ main {
     line-height: 1;
 }
 
-.die-hint {
-    position: absolute;
-    bottom: 10px;
-    left: 0;
-    right: 0;
-    text-align: center;
-    font-size: 10px;
-    font-weight: 700;
-    letter-spacing: 2px;
-    color: var(--text-muted);
-}
-
-.die.rolled .die-hint {
-    display: none;
-}
-
 .die-label {
     margin-top: 16px;
     font-size: 15px;
@@ -308,7 +292,7 @@ main {
 .die.result-silence { border-color: var(--silence); box-shadow: 0 0 24px rgba(0, 201, 167, 0.25); }
 .die.result-silence [id$="-value"] { color: var(--silence); }
 
-.die.result-danger { border-color: var(--danger); box-shadow: 0 0 24px rgba(255, 68, 85, 0.3); }
+.die.result-danger { border-color: var(--danger); box-shadow: 0 0 30px rgba(255, 34, 68, 0.4); }
 .die.result-danger [id$="-value"] { color: var(--danger); }
 
 .die.result-miss { border-color: var(--text-muted); }
@@ -328,7 +312,7 @@ main {
 
 .die.rolling {
     animation: shake 0.5s ease infinite;
-    border-color: var(--accent);
+    border-color: var(--text);
     box-shadow: 0 0 20px rgba(0, 201, 167, 0.2);
 }
 
