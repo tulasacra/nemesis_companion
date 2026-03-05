@@ -266,6 +266,11 @@
         }).join('');
         var footer = $('#objectives-footer');
         if (footer) footer.style.display = objectives.length > 1 ? '' : 'none';
+        var signalsNote = $('#objectives-footer-signals');
+        if (signalsNote) {
+            var hasSignalObjectives = objectives.some(function (o) { return o.description.indexOf('Send the Signal') !== -1; });
+            signalsNote.style.display = hasSignalObjectives ? '' : 'none';
+        }
     }
 
     function renderResearch() {
