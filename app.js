@@ -258,9 +258,11 @@
             return;
         }
         el.innerHTML = objectives.map(function (obj, i) {
+            var desc = obj.description;
+            desc = desc.split(' OR ').join(' OR<br>');
             return '<div class="objective-card">' +
                 '<div class="objective-name">' + (i + 1) + '. ' + obj.name + '</div>' +
-                '<div class="objective-desc">' + obj.description + '</div>' +
+                '<div class="objective-desc">' + desc + '</div>' +
                 (obj.flavor ? '<div class="objective-flavor">' + obj.flavor + '</div>' : '') +
                 '</div>';
         }).join('');
