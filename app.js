@@ -461,7 +461,7 @@
                 case 'queen':
                     // Return Queen; Nest: place Queen + Encounter / else +1 Egg
                     bag[drawn.id]++;
-                    effectText = 'Characters in the Nest Room, Encounter the Queen.\nOtherwise, add an additional Egg.';
+                    effectText = 'Characters in the Nest Room, Encounter the Queen (4).\nOtherwise, add an additional Egg.';
                     break;
                 case 'blank':
                     // Return Blank, add 1 Adult
