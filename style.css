@@ -770,6 +770,10 @@ main {
     color: var(--text-muted);
 }
 
+.turn-tracker-icon-end {
+    color: var(--critical);
+}
+
 .turn-segments {
     flex: 1;
     display: flex;

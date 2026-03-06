@@ -167,8 +167,8 @@
                 revealed = saved.revealed || [false, false, false];
                 bag = saved.bag || {};
                 maxTurns = typeof saved.maxTurns === 'number' && saved.maxTurns >= 8 && saved.maxTurns <= 24 ? saved.maxTurns : 16;
-                currentTurn = typeof saved.currentTurn === 'number' && saved.currentTurn >= 0 ? saved.currentTurn : maxTurns;
-                currentTurn = Math.min(currentTurn, maxTurns);
+                currentTurn = typeof saved.currentTurn === 'number' && saved.currentTurn >= 1 ? saved.currentTurn : maxTurns;
+                currentTurn = Math.max(1, Math.min(currentTurn, maxTurns));
                 return true;
             }
         } catch (e) { /* parse error */ }
@@ -513,7 +513,7 @@
     // ===== Turn Tracker =====
 
     function setTurn(n) {
-        n = Math.max(0, Math.min(maxTurns, n));
+        n = Math.max(1, Math.min(maxTurns, n));
         if (n === currentTurn) return;
         currentTurn = n;
         renderTurnTracker();
@@ -525,7 +525,7 @@
         if (!container) return;
         container.innerHTML = '';
         var lowerThreshold = Math.floor(maxTurns / 2);
-        for (var v = maxTurns; v >= 0; v--) {
+        for (var v = maxTurns; v >= 1; v--) {
             var seg = document.createElement('div');
             seg.className = 'turn-segment' + (v <= lowerThreshold ? ' lower-half' : '') + (v === currentTurn ? ' current' : '');
             seg.dataset.value = String(v);
@@ -534,6 +534,7 @@
             container.appendChild(seg);
         }
         container.setAttribute('aria-valuenow', currentTurn);
+        container.setAttribute('aria-valuemin', 1);
         container.setAttribute('aria-valuemax', maxTurns);
     }
 
@@ -605,7 +606,7 @@
             maxTurnsSelect.value = String(maxTurns);
             maxTurnsSelect.addEventListener('change', function () {
                 maxTurns = parseInt(maxTurnsSelect.value, 10);
-                currentTurn = Math.min(currentTurn, maxTurns);
+                currentTurn = Math.max(1, Math.min(currentTurn, maxTurns));
                 renderTurnTracker();
                 saveState();
             });
