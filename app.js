@@ -536,6 +536,15 @@
         container.setAttribute('aria-valuenow', currentTurn);
         container.setAttribute('aria-valuemin', 1);
         container.setAttribute('aria-valuemax', maxTurns);
+        updateTurnSegmentNumbersVisibility();
+    }
+
+    function updateTurnSegmentNumbersVisibility() {
+        var container = $('#turn-segments');
+        if (!container) return;
+        var smallScreen = window.matchMedia('(max-width: 600px)').matches;
+        var bigMaxTurns = maxTurns > 16;
+        container.classList.toggle('hide-segment-numbers', smallScreen && bigMaxTurns);
     }
 
     function renderBag() {
@@ -615,6 +624,7 @@
         renderResearch();
         renderBag();
         renderTurnTracker();
+        window.addEventListener('resize', updateTurnSegmentNumbersVisibility);
     }
 
     document.addEventListener('DOMContentLoaded', init);

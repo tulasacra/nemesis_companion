@@ -806,6 +806,10 @@ main {
     color: var(--text-muted);
 }
 
+.turn-segments.hide-segment-numbers .turn-segment {
+    color: transparent;
+}
+
 .bag-token-label.type-blank { color: var(--text-muted); }
 .bag-token-label.type-larva { color: #88cc44; }
 .bag-token-label.type-creeper { color: #ccaa00; }
