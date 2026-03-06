@@ -207,6 +207,12 @@
         var valueEl = $('#die-' + type + '-value');
         var labelEl = $('#die-' + type + '-label');
         labelEl.innerHTML = '\u00a0';
+        if (type === 'noise') {
+            $('#die-noise-hint').textContent = '\u00a0';
+        }
+        if (type === 'attack') {
+            $('#die-attack-hint').textContent = '\u00a0';
+        }
         die.classList.add('rolled', 'rolling');
 
         function setAttackDieFace(face) {
@@ -235,6 +241,30 @@
                     valueEl.textContent = result.value;
                 }
                 labelEl.textContent = result.label;
+                if (type === 'noise') {
+                    var hintEl = $('#die-noise-hint');
+                    if (result.type === 'number') {
+                        hintEl.textContent = 'Place a Noise marker in an adjacent Corridor #' + result.value + '.';
+                    } else if (result.type === 'danger') {
+                        hintEl.textContent = 'Move all out of combat Intruders from neighboring Rooms to this Room.\nIf there are no such Intruders present, place a Noise marker in each adjacent Corridor without a Noise marker.';
+                    } else {
+                        hintEl.textContent = 'If the Character has a Slime marker, then resolve "Danger" instead.\nDanger: Move all out of combat Intruders from neighboring Rooms to this Room. If there are no such Intruders present, place a Noise marker in each adjacent Corridor without a Noise marker.';
+                    }
+                }
+                if (type === 'attack') {
+                    var attackHintEl = $('#die-attack-hint');
+                    if (result.type === 'double') {
+                        attackHintEl.textContent = 'Deal 2 Injuries.\nMelee: Deal only 1 Injury.';
+                    } else if (result.type === 'hit') {
+                        attackHintEl.textContent = 'Deal 1 Injury.';
+                    } else if (result.type === 'creeper') {
+                        attackHintEl.textContent = 'If your target is Larva or Creeper, deal 1 Injury.\nMelee: If not, your Character suffers 1 Serious Wound.';
+                    } else if (result.type === 'adult') {
+                        attackHintEl.textContent = 'If your target is Larva, Creeper or Adult, deal 1 Injury.\nMelee: If not, your Character suffers 1 Serious Wound.';
+                    } else {
+                        attackHintEl.textContent = 'Melee: Your Character suffers 1 Serious Wound.';
+                    }
+                }
                 die.className = 'die result-' + result.type + ' rolled';
                 die.classList.remove('rolling');
                 onDone();
@@ -248,6 +278,12 @@
         var labelEl = $('#die-' + type + '-label');
         valueEl.textContent = '?';
         labelEl.innerHTML = '\u00a0';
+        if (type === 'noise') {
+            $('#die-noise-hint').textContent = '\u00a0';
+        }
+        if (type === 'attack') {
+            $('#die-attack-hint').textContent = '\u00a0';
+        }
         die.className = 'die';
     }
 
