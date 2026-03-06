@@ -34,6 +34,29 @@
                 </div>
             </div>
 
+            <div class="card">
+                <label class="card-label" for="max-turns-select">Turns</label>
+                <select id="max-turns-select" class="max-turns-select" aria-label="Number of turns">
+                    <option value="24">24</option>
+                    <option value="23">23</option>
+                    <option value="22">22</option>
+                    <option value="21">21</option>
+                    <option value="20">20</option>
+                    <option value="19">19</option>
+                    <option value="18">18</option>
+                    <option value="17">17</option>
+                    <option value="16" selected>16 (default)</option>
+                    <option value="15">15</option>
+                    <option value="14">14</option>
+                    <option value="13">13</option>
+                    <option value="12">12</option>
+                    <option value="11">11</option>
+                    <option value="10">10</option>
+                    <option value="9">9</option>
+                    <option value="8">8</option>
+                </select>
+            </div>
+
             <button id="new-game-btn" class="btn-primary">NEW GAME</button>
 
             <div id="setup-hint" class="setup-hint">
@@ -94,6 +117,13 @@
 
             <div id="bag-contents">
                 <div id="bag-tokens"></div>
+            </div>
+
+            <div id="turn-tracker" class="turn-tracker">
+                <svg class="turn-tracker-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M5 4h14l-7 8 7 8H5l7-8-7-8z"/>
+                </svg>
+                <div id="turn-segments" class="turn-segments" role="status" aria-label="Turn track" aria-valuenow="16"></div>
             </div>
         </section>
     </main>

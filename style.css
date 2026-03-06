@@ -208,6 +208,19 @@ main {
     background: var(--accent-dim);
 }
 
+.max-turns-select {
+    width: 100%;
+    height: 48px;
+    padding: 0 14px;
+    border: 2px solid var(--border);
+    border-radius: 10px;
+    background: var(--surface);
+    color: var(--text);
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
 .setup-hint {
     margin-top: 14px;
     padding: 0 8px;
@@ -744,6 +757,56 @@ main {
     padding-top: 8px;
 }
 
+.turn-tracker {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 20px;
+    padding: 12px 16px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+}
+
+.turn-tracker-icon {
+    flex-shrink: 0;
+    width: 24px;
+    height: 24px;
+    color: var(--text-muted);
+}
+
+.turn-segments {
+    flex: 1;
+    display: flex;
+    gap: 2px;
+    min-height: 28px;
+}
+
+.turn-segment {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--text-muted);
+    transition: background 0.15s, border-color 0.15s, color 0.15s;
+}
+
+.turn-segment.lower-half {
+    border-color: #87ceeb;
+}
+
+.turn-segment.current {
+    background: rgba(0, 201, 167, 0.4);
+    border-color: rgba(0, 201, 167, 0.4);
+    color: var(--text-muted);
+}
+
 .bag-token-label.type-blank { color: var(--text-muted); }
 .bag-token-label.type-larva { color: #88cc44; }
 .bag-token-label.type-creeper { color: #ccaa00; }
@@ -784,7 +847,7 @@ main {
     #tab-bag {
         display: grid;
         grid-template-columns: 1fr 1fr;
-        grid-template-rows: 1fr auto;
+        grid-template-rows: 1fr auto auto;
         gap: 0 24px;
         min-height: 100%;
     }
@@ -798,11 +861,16 @@ main {
     }
     #tab-bag #bag-contents {
         grid-column: 2;
-        grid-row: 1 / -1;
+        grid-row: 1 / 3;
         margin-top: 0;
         display: flex;
         flex-direction: column;
         justify-content: center;
+    }
+    #tab-bag .turn-tracker {
+        grid-column: 1 / -1;
+        grid-row: 3;
+        margin-top: 16px;
     }
 }
 

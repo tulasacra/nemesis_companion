@@ -118,6 +118,8 @@
     var research = [null, null, null];
     var revealed = [false, false, false];
     var bag = {};
+    var currentTurn = 16;
+    var maxTurns = 16;
 
     // ===== Utility =====
 
@@ -146,7 +148,9 @@
                 objectives: objectives,
                 research: research,
                 revealed: revealed,
-                bag: bag
+                bag: bag,
+                currentTurn: currentTurn,
+                maxTurns: maxTurns
             }));
         } catch (e) { /* storage unavailable */ }
     }
@@ -162,6 +166,9 @@
                 research = saved.research || [];
                 revealed = saved.revealed || [false, false, false];
                 bag = saved.bag || {};
+                maxTurns = typeof saved.maxTurns === 'number' && saved.maxTurns >= 8 && saved.maxTurns <= 24 ? saved.maxTurns : 16;
+                currentTurn = typeof saved.currentTurn === 'number' && saved.currentTurn >= 0 ? saved.currentTurn : maxTurns;
+                currentTurn = Math.min(currentTurn, maxTurns);
                 return true;
             }
         } catch (e) { /* parse error */ }
@@ -194,9 +201,11 @@
         objectives = shuffle(COOP_OBJECTIVES).slice(0, numPlayers);
         research = shuffle(WEAKNESSES).slice(0, 3);
         revealed = [false, false, false];
+        currentTurn = maxTurns;
         resetBag();
         renderObjectives();
         renderResearch();
+        renderTurnTracker();
         saveState();
         showToast('New game started!');
     }
@@ -487,6 +496,9 @@
             nameEl.textContent = drawn.name.toUpperCase() + (drawnSurpriseValue !== null ? ' ' + drawnSurpriseValue : '');
             nameEl.className = 'type-' + drawn.id;
             effectEl.textContent = effectText;
+            if (mode === 'development') {
+                setTurn(Math.max(0, currentTurn - 1));
+            }
             renderBag();
             saveState();
         }, 2000);
@@ -496,6 +508,33 @@
         bag[id] = Math.max(0, (bag[id] || 0) + delta);
         renderBag();
         saveState();
+    }
+
+    // ===== Turn Tracker =====
+
+    function setTurn(n) {
+        n = Math.max(0, Math.min(maxTurns, n));
+        if (n === currentTurn) return;
+        currentTurn = n;
+        renderTurnTracker();
+        saveState();
+    }
+
+    function renderTurnTracker() {
+        var container = $('#turn-segments');
+        if (!container) return;
+        container.innerHTML = '';
+        var lowerThreshold = Math.floor(maxTurns / 2);
+        for (var v = maxTurns; v >= 0; v--) {
+            var seg = document.createElement('div');
+            seg.className = 'turn-segment' + (v <= lowerThreshold ? ' lower-half' : '') + (v === currentTurn ? ' current' : '');
+            seg.dataset.value = String(v);
+            seg.setAttribute('aria-label', 'Turn ' + v);
+            seg.textContent = v;
+            container.appendChild(seg);
+        }
+        container.setAttribute('aria-valuenow', currentTurn);
+        container.setAttribute('aria-valuemax', maxTurns);
     }
 
     function renderBag() {
@@ -561,9 +600,20 @@
         if (!bag || bagTotal() === undefined) resetBag();
 
         setPlayerCount(numPlayers);
+        var maxTurnsSelect = $('#max-turns-select');
+        if (maxTurnsSelect) {
+            maxTurnsSelect.value = String(maxTurns);
+            maxTurnsSelect.addEventListener('change', function () {
+                maxTurns = parseInt(maxTurnsSelect.value, 10);
+                currentTurn = Math.min(currentTurn, maxTurns);
+                renderTurnTracker();
+                saveState();
+            });
+        }
         renderObjectives();
         renderResearch();
         renderBag();
+        renderTurnTracker();
     }
 
     document.addEventListener('DOMContentLoaded', init);
