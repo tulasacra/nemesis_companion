@@ -945,12 +945,6 @@ main {
 /* ===== Tablet ===== */
 
 @media (min-width: 600px) {
-    .tab-content {
-        max-width: 800px;
-        margin-left: auto;
-        margin-right: auto;
-    }
-
     .die {
         width: 160px;
         height: 160px;
@@ -971,9 +965,6 @@ main {
 }
 
 @media (min-width: 900px) {
-    .tab-content {
-        max-width: 960px;
-    }
 
     .die {
         width: 180px;
