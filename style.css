@@ -846,6 +846,15 @@ main {
     flex: 1;
 }
 
+@media (orientation: portrait) {
+    #tab-bag #bag-contents {
+        margin-bottom: 8px;
+    }
+    #tab-bag .turn-tracker {
+        margin-top: 8px;
+    }
+}
+
 @media (orientation: landscape) {
     #tab-bag {
         display: grid;
