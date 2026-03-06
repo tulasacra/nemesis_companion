@@ -176,6 +176,16 @@ main {
     background: var(--accent-dim);
 }
 
+.setup-hint {
+    margin-top: 14px;
+    padding: 0 8px;
+    text-align: left;
+    font-size: 12px;
+    line-height: 1.5;
+    color: var(--text-muted);
+    white-space: pre-line;
+}
+
 .settings-footer {
     margin-top: auto;
     padding-top: 32px;

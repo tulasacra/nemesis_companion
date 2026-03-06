@@ -184,6 +184,8 @@
         $$('.player-btn').forEach(function (btn) {
             btn.classList.toggle('selected', parseInt(btn.dataset.count) === n);
         });
+        var pods = Math.ceil(n / 2) + 1;
+        $('#setup-pod-count').textContent = pods;
     }
 
     // ===== New Game =====
