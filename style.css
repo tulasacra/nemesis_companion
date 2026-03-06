@@ -93,6 +93,38 @@ main {
     border-right: none;
 }
 
+@media (orientation: landscape) {
+    body {
+        flex-direction: row;
+    }
+
+    main {
+        flex: 1;
+        min-width: 0;
+        order: 1;
+    }
+
+    #tab-bar {
+        order: -1;
+        flex-direction: column;
+        width: 96px;
+        border-top: none;
+        border-right: 1px solid var(--border);
+        padding-bottom: 0;
+        padding-left: env(safe-area-inset-left, 0px);
+    }
+
+    .tab-btn {
+        flex: 1;
+        border-right: none;
+        border-bottom: 1px solid var(--border);
+    }
+
+    .tab-btn:last-child {
+        border-bottom: none;
+    }
+}
+
 .tab-btn.active {
     color: var(--accent);
 }
@@ -440,6 +472,17 @@ main {
     line-height: 1.4;
 }
 
+@media (orientation: landscape) {
+    #objectives-list.objectives-list--multi {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+    }
+    #objectives-list.objectives-list--multi .objective-card {
+        margin-bottom: 0;
+    }
+}
+
 /* ===== Weakness / Research Tab ===== */
 
 #research-grid {
@@ -735,6 +778,32 @@ main {
 
 .bag-buttons .btn-primary {
     flex: 1;
+}
+
+@media (orientation: landscape) {
+    #tab-bag {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: 1fr auto;
+        gap: 0 24px;
+        min-height: 100%;
+    }
+    #tab-bag #bag-result-area {
+        grid-column: 1;
+        grid-row: 1;
+    }
+    #tab-bag .bag-buttons {
+        grid-column: 1;
+        grid-row: 2;
+    }
+    #tab-bag #bag-contents {
+        grid-column: 2;
+        grid-row: 1 / -1;
+        margin-top: 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
 }
 
 /* ===== Toast ===== */

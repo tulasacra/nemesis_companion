@@ -311,8 +311,10 @@
         var el = $('#objectives-list');
         if (!objectives.length) {
             el.innerHTML = '<p class="placeholder">Press NEW GAME in Settings<br>to assign cooperative objectives</p>';
+            el.classList.remove('objectives-list--multi');
             return;
         }
+        el.classList.toggle('objectives-list--multi', objectives.length > 1);
         el.innerHTML = objectives.map(function (obj, i) {
             var desc = obj.description;
             desc = desc.split(' OR ').join(' OR<br>');
@@ -550,10 +552,6 @@
 
         $('#encounter-btn').addEventListener('click', function () { drawFromBag('encounter'); });
         $('#development-btn').addEventListener('click', function () { drawFromBag('development'); });
-        $('#bag-reset-btn').addEventListener('click', function () {
-            resetBag();
-            showToast('Bag reset!');
-        });
 
         var hadSavedState = loadState();
         if (!hadSavedState) {
