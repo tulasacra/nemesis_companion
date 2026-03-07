@@ -35,26 +35,14 @@
             </div>
 
             <div class="card">
-                <label class="card-label" for="max-turns-select">Turns</label>
-                <select id="max-turns-select" class="max-turns-select" aria-label="Number of turns">
-                    <option value="24">24</option>
-                    <option value="23">23</option>
-                    <option value="22">22</option>
-                    <option value="21">21</option>
-                    <option value="20">20</option>
-                    <option value="19">19</option>
-                    <option value="18">18</option>
-                    <option value="17">17</option>
-                    <option value="16" selected>16 (default)</option>
-                    <option value="15">15</option>
-                    <option value="14">14</option>
-                    <option value="13">13</option>
-                    <option value="12">12</option>
-                    <option value="11">11</option>
-                    <option value="10">10</option>
-                    <option value="9">9</option>
-                    <option value="8">8</option>
-                </select>
+                <label class="card-label">Turns</label>
+                <div class="player-selector" id="max-turns-selector" role="group" aria-label="Number of turns">
+                    <button type="button" class="player-btn" data-turns="24">24</button>
+                    <button type="button" class="player-btn" data-turns="20">20</button>
+                    <button type="button" class="player-btn selected" data-turns="16">16</button>
+                    <button type="button" class="player-btn" data-turns="12">12</button>
+                    <button type="button" class="player-btn" data-turns="8">8</button>
+                </div>
             </div>
 
             <button id="new-game-btn" class="btn-primary">NEW GAME</button>

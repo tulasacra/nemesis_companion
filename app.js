@@ -166,7 +166,9 @@
                 research = saved.research || [];
                 revealed = saved.revealed || [false, false, false];
                 bag = saved.bag || {};
-                maxTurns = typeof saved.maxTurns === 'number' && saved.maxTurns >= 8 && saved.maxTurns <= 24 ? saved.maxTurns : 16;
+                var validTurns = [24, 20, 16, 12, 8];
+                var savedTurns = typeof saved.maxTurns === 'number' && saved.maxTurns >= 8 && saved.maxTurns <= 24 ? saved.maxTurns : 16;
+                maxTurns = validTurns.indexOf(savedTurns) !== -1 ? savedTurns : validTurns.reduce(function (a, b) { return Math.abs(a - savedTurns) <= Math.abs(b - savedTurns) ? a : b; });
                 currentTurn = typeof saved.currentTurn === 'number' && saved.currentTurn >= 1 ? saved.currentTurn : maxTurns;
                 currentTurn = Math.max(1, Math.min(currentTurn, maxTurns));
                 return true;
@@ -188,7 +190,7 @@
 
     function setPlayerCount(n) {
         numPlayers = n;
-        $$('.player-btn').forEach(function (btn) {
+        $$('#player-selector .player-btn').forEach(function (btn) {
             btn.classList.toggle('selected', parseInt(btn.dataset.count) === n);
         });
         var pods = Math.ceil(n / 2) + 1;
@@ -590,7 +592,7 @@
             btn.addEventListener('click', function () { switchTab(btn.dataset.tab); });
         });
 
-        $$('.player-btn').forEach(function (btn) {
+        $$('#player-selector .player-btn').forEach(function (btn) {
             btn.addEventListener('click', function () { setPlayerCount(parseInt(btn.dataset.count)); });
         });
 
@@ -610,16 +612,21 @@
         if (!bag || bagTotal() === undefined) resetBag();
 
         setPlayerCount(numPlayers);
-        var maxTurnsSelect = $('#max-turns-select');
-        if (maxTurnsSelect) {
-            maxTurnsSelect.value = String(maxTurns);
-            maxTurnsSelect.addEventListener('change', function () {
-                maxTurns = parseInt(maxTurnsSelect.value, 10);
+        $$('#max-turns-selector .player-btn').forEach(function (btn) {
+            btn.addEventListener('click', function () {
+                var n = parseInt(btn.dataset.turns, 10);
+                maxTurns = n;
+                $$('#max-turns-selector .player-btn').forEach(function (b) {
+                    b.classList.toggle('selected', parseInt(b.dataset.turns) === n);
+                });
                 currentTurn = Math.max(1, Math.min(currentTurn, maxTurns));
                 renderTurnTracker();
                 saveState();
             });
-        }
+        });
+        $$('#max-turns-selector .player-btn').forEach(function (btn) {
+            btn.classList.toggle('selected', parseInt(btn.dataset.turns) === maxTurns);
+        });
         renderObjectives();
         renderResearch();
         renderBag();

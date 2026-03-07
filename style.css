@@ -208,19 +208,6 @@ main {
     background: var(--accent-dim);
 }
 
-.max-turns-select {
-    width: 100%;
-    height: 48px;
-    padding: 0 14px;
-    border: 2px solid var(--border);
-    border-radius: 10px;
-    background: var(--surface);
-    color: var(--text);
-    font-size: 16px;
-    font-weight: 700;
-    cursor: pointer;
-}
-
 .setup-hint {
     margin-top: 14px;
     padding: 0 8px;
