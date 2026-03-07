@@ -257,51 +257,24 @@ main {
 #dice-area {
     flex: 1;
     display: grid;
-    gap: 24px;
-    align-items: center;
+    gap: clamp(24px, 6vh, 64px);
+    align-content: center;
     justify-items: center;
     min-height: 220px;
+    width: 100%;
 }
 
 @media (orientation: portrait) {
     #dice-area {
-        position: relative;
-        grid-template-rows: none;
-        grid-template-columns: none;
-        gap: 0;
-    }
-    #dice-area .die-block {
-        position: absolute;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        width: 100%;
-        box-sizing: border-box;
-    }
-    #dice-area .die-block:nth-child(1) { top: 33.333%; }
-    #dice-area .die-block:nth-child(2) { top: 66.667%; }
-    #dice-area .die-hint {
-        max-width: 100%;
+        grid-template-columns: minmax(0, 1fr);
+        align-content: start;
+        padding-block: 24px 40px;
     }
 }
 
 @media (orientation: landscape) {
     #dice-area {
-        position: relative;
-        grid-template-rows: none;
-        grid-template-columns: none;
-        gap: 0;
-    }
-    #dice-area .die-block {
-        position: absolute;
-        top: 50%;
-        transform: translate(-50%, -50%);
-        width: 33.333%;
-        box-sizing: border-box;
-    }
-    #dice-area .die-block:nth-child(1) { left: 33.333%; }
-    #dice-area .die-block:nth-child(2) { left: 66.667%; }
-    #dice-area .die-hint {
-        max-width: 100%;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 }
 
@@ -309,6 +282,9 @@ main {
     display: flex;
     flex-direction: column;
     align-items: center;
+    width: 100%;
+    max-width: 560px;
+    min-width: 0;
 }
 
 .die-caption {
@@ -369,7 +345,7 @@ main {
     color: var(--text-muted);
     min-height: 20px;
     text-align: center;
-    max-width: min(560px, calc(100vw - 64px));
+    max-width: 100%;
     white-space: pre-line;
 }
 
