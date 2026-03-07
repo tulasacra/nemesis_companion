@@ -44,6 +44,7 @@ body {
 main {
     flex: 1;
     overflow-y: auto;
+    overscroll-behavior-y: none;
     -webkit-overflow-scrolling: touch;
 }
 
@@ -257,51 +258,53 @@ main {
 #dice-area {
     flex: 1;
     display: grid;
-    gap: 24px;
-    align-items: center;
+    gap: clamp(24px, 6vh, 64px);
+    align-content: center;
     justify-items: center;
     min-height: 220px;
-}
-
-@media (orientation: portrait) {
-    #dice-area {
-        position: relative;
-        grid-template-rows: none;
-        grid-template-columns: none;
-        gap: 0;
-    }
-    #dice-area .die-block {
-        position: absolute;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        width: 100%;
-        box-sizing: border-box;
-    }
-    #dice-area .die-block:nth-child(1) { top: 33.333%; }
-    #dice-area .die-block:nth-child(2) { top: 66.667%; }
-    #dice-area .die-hint {
-        max-width: 100%;
-    }
+    width: 100%;
 }
 
 @media (orientation: landscape) {
     #dice-area {
-        position: relative;
-        grid-template-rows: none;
-        grid-template-columns: none;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (orientation: portrait), (max-width: 700px) {
+    #tab-dice {
+        overflow: hidden;
+    }
+
+    #dice-area {
+        grid-template-columns: minmax(0, 1fr);
+        grid-template-rows: minmax(0, 1fr) clamp(104px, 16vh, 148px) minmax(0, 1fr);
         gap: 0;
+        align-content: stretch;
+        min-height: 0;
     }
+
     #dice-area .die-block {
-        position: absolute;
-        top: 50%;
-        transform: translate(-50%, -50%);
-        width: 33.333%;
-        box-sizing: border-box;
+        display: contents;
     }
-    #dice-area .die-block:nth-child(1) { left: 33.333%; }
-    #dice-area .die-block:nth-child(2) { left: 66.667%; }
+
+    #dice-area .die-block:nth-child(1) .die-stack {
+        grid-row: 1;
+        align-self: end;
+    }
+
+    #dice-area .die-block:nth-child(2) .die-stack {
+        grid-row: 3;
+        align-self: start;
+    }
+
     #dice-area .die-hint {
-        max-width: 100%;
+        grid-column: 1;
+        grid-row: 2;
+        align-self: center;
+        min-height: 0;
+        max-height: 100%;
+        overflow-y: auto;
     }
 }
 
@@ -309,6 +312,17 @@ main {
     display: flex;
     flex-direction: column;
     align-items: center;
+    width: 100%;
+    max-width: 560px;
+    min-width: 0;
+}
+
+.die-stack {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    min-width: 0;
 }
 
 .die-caption {
@@ -369,7 +383,7 @@ main {
     color: var(--text-muted);
     min-height: 20px;
     text-align: center;
-    max-width: min(560px, calc(100vw - 64px));
+    max-width: 100%;
     white-space: pre-line;
 }
 
@@ -866,7 +880,7 @@ main {
 }
 
 @media (orientation: landscape) {
-    #tab-bag {
+    #tab-bag.active {
         display: grid;
         grid-template-columns: 1fr 1fr;
         grid-template-rows: 1fr auto auto;
