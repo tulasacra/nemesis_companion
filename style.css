@@ -72,7 +72,6 @@ main {
     background: var(--surface);
     border-top: 1px solid var(--border);
     padding-bottom: env(safe-area-inset-bottom, 0px);
-    touch-action: none;
 }
 
 .tab-btn {
@@ -88,7 +87,6 @@ main {
     background: none;
     color: var(--text-muted);
     cursor: pointer;
-    touch-action: manipulation;
     transition: color 0.2s;
 }
 

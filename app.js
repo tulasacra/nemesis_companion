@@ -585,48 +585,11 @@
         setTimeout(function () { toast.classList.remove('show'); }, 2000);
     }
 
-    function attachTabButtonGuards(btn) {
-        var touchStartX = 0;
-        var touchStartY = 0;
-        var touchMoved = false;
-
-        btn.addEventListener('touchstart', function (e) {
-            if (!e.touches || !e.touches.length) return;
-            touchStartX = e.touches[0].clientX;
-            touchStartY = e.touches[0].clientY;
-            touchMoved = false;
-        }, { passive: true });
-
-        btn.addEventListener('touchmove', function (e) {
-            var touch;
-            if (!e.touches || !e.touches.length) return;
-            touch = e.touches[0];
-            if (Math.abs(touch.clientX - touchStartX) > 10 || Math.abs(touch.clientY - touchStartY) > 10) {
-                touchMoved = true;
-            }
-        }, { passive: true });
-
-        btn.addEventListener('touchend', function () {
-            btn.dataset.dragged = touchMoved ? 'true' : 'false';
-        }, { passive: true });
-
-        btn.addEventListener('touchcancel', function () {
-            btn.dataset.dragged = 'true';
-        }, { passive: true });
-    }
-
     // ===== Init =====
 
     function init() {
         $$('.tab-btn').forEach(function (btn) {
-            attachTabButtonGuards(btn);
-            btn.addEventListener('click', function () {
-                if (btn.dataset.dragged === 'true') {
-                    btn.dataset.dragged = 'false';
-                    return;
-                }
-                switchTab(btn.dataset.tab);
-            });
+            btn.addEventListener('click', function () { switchTab(btn.dataset.tab); });
         });
 
         $$('#player-selector .player-btn').forEach(function (btn) {
