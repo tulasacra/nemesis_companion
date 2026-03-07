@@ -137,6 +137,19 @@
     function $(sel) { return document.querySelector(sel); }
     function $$(sel) { return document.querySelectorAll(sel); }
 
+    function clamp(value, min, max) {
+        return Math.max(min, Math.min(max, value));
+    }
+
+    function updateUiScale() {
+        var width = Math.max(window.innerWidth || 0, 1);
+        var height = Math.max(window.innerHeight || 0, 1);
+        var shortEdge = Math.min(width, height);
+        var longEdge = Math.max(width, height);
+        var scale = Math.sqrt((shortEdge / 540) * (longEdge / 960));
+        document.documentElement.style.setProperty('--ui-scale', clamp(scale, 1, 4).toFixed(3));
+    }
+
     // ===== Persistence =====
 
     var STORAGE_KEY = 'nemesis-companion-state';
@@ -230,7 +243,7 @@
 
         function setAttackDieFace(face) {
             if (face.type === 'adult' || face.type === 'creeper') {
-                valueEl.innerHTML = tokenSvg(face.type, 112);
+                valueEl.innerHTML = tokenSvg(face.type);
             } else {
                 valueEl.textContent = face.value;
             }
@@ -493,7 +506,7 @@
 
         setTimeout(function () {
             labelEl.textContent = mode === 'encounter' ? 'ENCOUNTER' : 'DEVELOPMENT';
-            drawnEl.innerHTML = tokenSvg(drawn.id, 80);
+            drawnEl.innerHTML = tokenSvg(drawn.id);
             drawnEl.className = 'type-' + drawn.id;
             nameEl.textContent = drawn.name.toUpperCase() + (drawnSurpriseValue !== null ? ' ' + drawnSurpriseValue : '');
             nameEl.className = 'type-' + drawn.id;
@@ -588,6 +601,8 @@
     // ===== Init =====
 
     function init() {
+        updateUiScale();
+
         $$('.tab-btn').forEach(function (btn) {
             btn.addEventListener('click', function () { switchTab(btn.dataset.tab); });
         });
@@ -631,7 +646,10 @@
         renderResearch();
         renderBag();
         renderTurnTracker();
-        window.addEventListener('resize', updateTurnSegmentNumbersVisibility);
+        window.addEventListener('resize', function () {
+            updateUiScale();
+            updateTurnSegmentNumbersVisibility();
+        });
     }
 
     document.addEventListener('DOMContentLoaded', init);
