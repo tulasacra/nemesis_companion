@@ -352,10 +352,10 @@
                 (obj.flavor ? '<div class="objective-flavor">' + obj.flavor + '</div>' : '') +
                 '</div>';
         }).join('');
-        if (footer) footer.style.display = '';
+        if (footer) footer.style.display = objectives.length > 1 ? '' : 'none';
         if (signalsNote) {
             var hasSignalObjectives = objectives.some(function (o) { return o.description.indexOf('Send the Signal') !== -1; });
-            signalsNote.style.display = hasSignalObjectives ? '' : 'none';
+            signalsNote.style.display = objectives.length > 1 && hasSignalObjectives ? '' : 'none';
         }
     }
 
