@@ -279,6 +279,10 @@ main {
     #dice-area {
         grid-template-columns: repeat(2, minmax(0, 1fr));
     }
+
+    .die-hint {
+        min-height: calc(112px * var(--ui-scale));
+    }
 }
 
 @media (orientation: portrait), (max-width: 700px) {
