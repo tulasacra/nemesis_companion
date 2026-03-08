@@ -117,6 +117,8 @@ main {
 
     #tab-bar {
         order: -1;
+        margin-top: 0;
+        align-self: stretch;
         flex-direction: column;
         width: calc(96px * var(--ui-scale));
         border-top: none;
