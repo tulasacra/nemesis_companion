@@ -278,10 +278,38 @@ main {
 @media (orientation: landscape) {
     #dice-area {
         grid-template-columns: repeat(2, minmax(0, 1fr));
+        align-content: stretch;
+        align-items: stretch;
+        min-height: 0;
+    }
+
+    .die-block {
+        position: relative;
+        height: 100%;
+        min-height: 0;
+        overflow: visible;
+    }
+
+    .die-stack {
+        position: absolute;
+        top: calc(50% - (84px * var(--ui-scale)));
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
+    .die-caption {
+        line-height: 1;
     }
 
     .die-hint {
-        min-height: calc(112px * var(--ui-scale));
+        position: absolute;
+        top: calc(50% + (111px * var(--ui-scale)));
+        left: 50%;
+        transform: translateX(-50%);
+        width: 100%;
+        margin-top: 0;
+        max-height: calc(50% - (120px * var(--ui-scale)));
+        overflow-y: auto;
     }
 }
 
