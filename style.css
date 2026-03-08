@@ -3,6 +3,7 @@
     --surface: #161622;
     --card: #1c1c2e;
     --border: #2a2a40;
+    --turn-lower: #87ceeb;
     --text: #e0e0ec;
     --text-muted: #e0e0ec;
     --accent: #00c9a7;
@@ -845,7 +846,7 @@ main {
 }
 
 .turn-segment.lower-half {
-    border-color: #87ceeb;
+    border-color: var(--turn-lower);
 }
 
 .turn-segment.current {
@@ -856,6 +857,20 @@ main {
 
 .turn-segments.hide-segment-numbers .turn-segment {
     color: transparent;
+}
+
+.turn-segment-divider {
+    flex: 0 0 calc(14px * var(--ui-scale));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--turn-lower);
+}
+
+.turn-segment-divider-icon {
+    width: calc(14px * var(--ui-scale));
+    height: calc(21px * var(--ui-scale));
+    display: block;
 }
 
 .bag-token-label.type-blank { color: var(--text-muted); }
@@ -922,6 +937,15 @@ main {
     .turn-segment {
         border-radius: calc(3px * var(--ui-scale));
         font-size: calc(9px * var(--ui-scale));
+    }
+
+    .turn-segment-divider {
+        flex-basis: calc(12px * var(--ui-scale));
+    }
+
+    .turn-segment-divider-icon {
+        width: calc(12px * var(--ui-scale));
+        height: calc(18px * var(--ui-scale));
     }
 }
 
