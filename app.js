@@ -540,14 +540,11 @@
     function turnTrackerDividerSvg() {
         return '<svg class="turn-segment-divider-icon" viewBox="0 0 80 120" fill="none" aria-hidden="true">' +
             '<rect x="12" y="8" width="56" height="104" rx="8" stroke="currentColor" stroke-width="4"/>' +
-            '<circle cx="40" cy="26" r="10" fill="white" stroke="currentColor" stroke-width="4"/>' +
+            '<circle cx="40" cy="26" r="10" fill="currentColor" stroke="currentColor" stroke-width="4"/>' +
             '<rect x="29" y="36" width="22" height="38" rx="9" fill="currentColor" stroke="currentColor" stroke-width="4"/>' +
             '<line x1="29" y1="42" x2="16" y2="68" stroke="currentColor" stroke-width="6.5" stroke-linecap="round"/>' +
             '<line x1="51" y1="42" x2="64" y2="68" stroke="currentColor" stroke-width="6.5" stroke-linecap="round"/>' +
             '<rect x="8" y="68" width="64" height="52" rx="10" fill="currentColor"/>' +
-            '<line x1="10" y1="80" x2="70" y2="80" stroke="white" stroke-width="2" stroke-opacity="0.4"/>' +
-            '<line x1="10" y1="94" x2="70" y2="94" stroke="white" stroke-width="1.8" stroke-opacity="0.3"/>' +
-            '<line x1="10" y1="108" x2="70" y2="108" stroke="white" stroke-width="1.5" stroke-opacity="0.2"/>' +
         '</svg>';
     }
 
