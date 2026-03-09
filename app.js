@@ -142,11 +142,13 @@
     }
 
     var PRESSABLE_SELECTOR = 'button';
-    var PRESS_FEEDBACK_MS = 140;
+    var PRESS_ANIMATION_MS = 150;
     var activePressedButton = null;
     var keyboardPressedButton = null;
     var pressStartTimes = new WeakMap();
-    var pressTimers = new WeakMap();
+    var pressReleaseTimers = new WeakMap();
+    var pressUnlockTimers = new WeakMap();
+    var pendingActionButtons = new WeakSet();
 
     function isPressKey(event) {
         return event.key === 'Enter' || event.key === ' ' || event.key === 'Spacebar';
@@ -156,43 +158,89 @@
         return target && target.closest ? target.closest(PRESSABLE_SELECTOR) : null;
     }
 
-    function clearPressTimer(button) {
-        var timer = pressTimers.get(button);
+    function clearButtonTimer(timers, button) {
+        var timer = timers.get(button);
         if (timer) {
             clearTimeout(timer);
-            pressTimers.delete(button);
+            timers.delete(button);
         }
     }
 
     function isInteractiveButton(button) {
-        return !!button && button.matches(PRESSABLE_SELECTOR) && !button.disabled;
+        return !!button &&
+            button.matches(PRESSABLE_SELECTOR) &&
+            !button.disabled &&
+            !button.classList.contains('is-release-disabled') &&
+            !pendingActionButtons.has(button);
+    }
+
+    function clearPressTimers(button) {
+        clearButtonTimer(pressReleaseTimers, button);
+        clearButtonTimer(pressUnlockTimers, button);
+    }
+
+    function pressElapsed(button) {
+        return Date.now() - (pressStartTimes.get(button) || Date.now());
+    }
+
+    function pressCycleDelay(button) {
+        if (!button || !button.classList.contains('is-pressed')) return 0;
+        return Math.max(0, PRESS_ANIMATION_MS - pressElapsed(button)) + PRESS_ANIMATION_MS;
+    }
+
+    function setReleaseDisabled(button, disabled) {
+        button.classList.toggle('is-release-disabled', disabled);
     }
 
     function startButtonPress(button) {
         if (!isInteractiveButton(button)) return;
-        clearPressTimer(button);
+        clearPressTimers(button);
+        setReleaseDisabled(button, false);
         pressStartTimes.set(button, Date.now());
         button.classList.add('is-pressed');
     }
 
     function finishButtonPress(button, immediate) {
-        var delay;
+        var remaining;
 
-        function releaseButton() {
-            clearPressTimer(button);
+        function unlockButton() {
+            clearButtonTimer(pressUnlockTimers, button);
+            setReleaseDisabled(button, false);
+        }
+
+        function startRelease() {
+            clearButtonTimer(pressReleaseTimers, button);
+            if (!button.classList.contains('is-pressed')) return;
+            setReleaseDisabled(button, true);
             button.classList.remove('is-pressed');
             pressStartTimes.delete(button);
+            pressUnlockTimers.set(button, setTimeout(unlockButton, PRESS_ANIMATION_MS));
         }
 
         if (!button) return;
-        clearPressTimer(button);
+        clearPressTimers(button);
         if (!button.classList.contains('is-pressed')) return;
-        delay = immediate ? 0 : Math.max(0, PRESS_FEEDBACK_MS - (Date.now() - (pressStartTimes.get(button) || 0)));
-        if (delay === 0) {
-            releaseButton();
+        if (immediate) {
+            setReleaseDisabled(button, false);
+            button.classList.remove('is-pressed');
+            pressStartTimes.delete(button);
             return;
         }
-        pressTimers.set(button, setTimeout(releaseButton, delay));
+        remaining = Math.max(0, PRESS_ANIMATION_MS - pressElapsed(button));
+        if (remaining === 0) {
+            startRelease();
+            return;
+        }
+        pressReleaseTimers.set(button, setTimeout(startRelease, remaining));
+    }
+
+    function queueButtonAction(button, callback) {
+        if (!button || pendingActionButtons.has(button)) return;
+        pendingActionButtons.add(button);
+        setTimeout(function () {
+            pendingActionButtons.delete(button);
+            callback();
+        }, pressCycleDelay(button));
     }
 
     function updateUiScale() {
@@ -658,7 +706,9 @@
 
         el.querySelectorAll('.bag-btn').forEach(function (btn) {
             btn.addEventListener('click', function () {
-                adjustBag(btn.dataset.id, parseInt(btn.dataset.delta));
+                queueButtonAction(btn, function () {
+                    adjustBag(btn.dataset.id, parseInt(btn.dataset.delta));
+                });
             });
         });
     }
@@ -741,7 +791,9 @@
             btn.addEventListener('click', function () { setPlayerCount(parseInt(btn.dataset.count)); });
         });
 
-        $('#new-game-btn').addEventListener('click', newGame);
+        $('#new-game-btn').addEventListener('click', function () {
+            queueButtonAction($('#new-game-btn'), newGame);
+        });
 
         $('#die-noise').addEventListener('click', function () { rollDie('noise'); });
         $('#die-attack').addEventListener('click', function () { rollDie('attack'); });

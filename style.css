@@ -13,6 +13,7 @@
     --hit: #ff8800;
     --critical: #ff2244;
     --silence: #00c9a7;
+    --accent-disabled-fill: color-mix(in srgb, var(--accent) 40%, var(--bg));
     --ui-scale: 1;
     --tab-height: calc(60px * var(--ui-scale));
 }
@@ -222,12 +223,12 @@ main {
 
 .tab-btn:active,
 .tab-btn.is-pressed {
-    transform: translateY(calc(2px * var(--ui-scale)));
+    transform: scale(0.9);
 }
 
 .player-btn:active,
 .player-btn.is-pressed {
-    transform: translateY(calc(2px * var(--ui-scale)));
+    transform: scale(0.9);
 }
 
 .setup-hint {
@@ -260,12 +261,12 @@ main {
     font-weight: 800;
     letter-spacing: calc(3px * var(--ui-scale));
     cursor: pointer;
-    transition: transform 0.15s, opacity 0.15s;
+    transition: transform 0.15s, opacity 0.15s, background 0.15s;
 }
 
 .btn-primary:active,
 .btn-primary.is-pressed {
-    transform: translateY(calc(2px * var(--ui-scale))) scale(0.97);
+    transform: scale(0.9);
     opacity: 0.85;
 }
 
@@ -273,6 +274,10 @@ main {
     opacity: 0.4;
     cursor: default;
     transform: none;
+}
+
+.btn-primary:disabled.is-pressed {
+    transform: scale(0.9);
 }
 
 /* ===== Dice Tab ===== */
@@ -802,7 +807,7 @@ main {
 
 .bag-btn:active,
 .bag-btn.is-pressed {
-    transform: translateY(calc(1px * var(--ui-scale))) scale(0.9);
+    transform: scale(0.9);
 }
 
 .bag-total {
@@ -909,8 +914,23 @@ main {
 
 .btn-secondary:active,
 .btn-secondary.is-pressed {
-    transform: translateY(calc(2px * var(--ui-scale))) scale(0.97);
+    transform: scale(0.9);
     opacity: 0.85;
+}
+
+button.is-release-disabled {
+    pointer-events: none;
+    cursor: default;
+}
+
+#new-game-btn.is-release-disabled {
+    background: var(--accent-disabled-fill);
+    opacity: 1;
+}
+
+.bag-btn.is-release-disabled {
+    background: var(--accent-disabled-fill);
+    border-color: var(--accent-disabled-fill);
 }
 
 .bag-buttons {
