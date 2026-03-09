@@ -141,6 +141,34 @@
         return Math.max(min, Math.min(max, value));
     }
 
+    var PRESS_DISABLE_MS = 500;
+    var bagButtonLocks = {};
+
+    function disableButtonTemporarily(btn, duration) {
+        if (!btn) return;
+        btn.disabled = true;
+        setTimeout(function () { btn.disabled = false; }, duration);
+    }
+
+    function bagButtonLockKey(id, delta) {
+        return id + ':' + delta;
+    }
+
+    function isBagButtonLocked(id, delta) {
+        return (bagButtonLocks[bagButtonLockKey(id, delta)] || 0) > Date.now();
+    }
+
+    function lockBagButton(id, delta, duration) {
+        var key = bagButtonLockKey(id, delta);
+        bagButtonLocks[key] = Date.now() + duration;
+        setTimeout(function () {
+            if ((bagButtonLocks[key] || 0) <= Date.now()) {
+                delete bagButtonLocks[key];
+            }
+            renderBag();
+        }, duration);
+    }
+
     function updateUiScale() {
         var width = Math.max(window.innerWidth || 0, 1);
         var height = Math.max(window.innerHeight || 0, 1);
@@ -588,15 +616,17 @@
         for (var k in bag) { if (k !== 'blank') intruderTotal += bag[k]; }
         el.innerHTML = BAG_TOKEN_TYPES.map(function (t) {
             var count = bag[t.id] || 0;
+            var minusLocked = isBagButtonLocked(t.id, -1);
+            var plusLocked = isBagButtonLocked(t.id, 1);
             return '<div class="bag-token-row">' +
                 '<div class="bag-token-label type-' + t.id + '">' +
                     '<span class="bag-token-icon">' + tokenSvg(t.id) + '</span>' +
                     '<span class="bag-token-name">' + t.name + '</span>' +
                 '</div>' +
                 '<div class="bag-token-controls">' +
-                '<button class="bag-btn" data-id="' + t.id + '" data-delta="-1">\u2212</button>' +
+                '<button class="bag-btn" data-id="' + t.id + '" data-delta="-1"' + (minusLocked ? ' disabled' : '') + '>\u2212</button>' +
                 '<span class="bag-token-count">' + count + '</span>' +
-                '<button class="bag-btn" data-id="' + t.id + '" data-delta="1">+</button>' +
+                '<button class="bag-btn" data-id="' + t.id + '" data-delta="1"' + (plusLocked ? ' disabled' : '') + '>+</button>' +
                 '</div>' +
                 '</div>';
         }).join('') +
@@ -604,7 +634,9 @@
 
         el.querySelectorAll('.bag-btn').forEach(function (btn) {
             btn.addEventListener('click', function () {
-                adjustBag(btn.dataset.id, parseInt(btn.dataset.delta));
+                var delta = parseInt(btn.dataset.delta, 10);
+                lockBagButton(btn.dataset.id, delta, PRESS_DISABLE_MS);
+                adjustBag(btn.dataset.id, delta);
             });
         });
     }
@@ -628,10 +660,16 @@
         });
 
         $$('#player-selector .player-btn').forEach(function (btn) {
-            btn.addEventListener('click', function () { setPlayerCount(parseInt(btn.dataset.count)); });
+            btn.addEventListener('click', function () {
+                disableButtonTemporarily(btn, PRESS_DISABLE_MS);
+                setPlayerCount(parseInt(btn.dataset.count));
+            });
         });
 
-        $('#new-game-btn').addEventListener('click', newGame);
+        $('#new-game-btn').addEventListener('click', function () {
+            disableButtonTemporarily(this, PRESS_DISABLE_MS);
+            newGame();
+        });
 
         $('#die-noise').addEventListener('click', function () { rollDie('noise'); });
         $('#die-attack').addEventListener('click', function () { rollDie('attack'); });
@@ -649,6 +687,7 @@
         setPlayerCount(numPlayers);
         $$('#max-turns-selector .player-btn').forEach(function (btn) {
             btn.addEventListener('click', function () {
+                disableButtonTemporarily(btn, PRESS_DISABLE_MS);
                 var n = parseInt(btn.dataset.turns, 10);
                 maxTurns = n;
                 $$('#max-turns-selector .player-btn').forEach(function (b) {
