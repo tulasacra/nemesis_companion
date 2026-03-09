@@ -203,7 +203,7 @@ main {
 
 .player-btn {
     flex: 1;
-    height: calc(48px * var(--ui-scale));
+    height: calc(44px * var(--ui-scale));
     border: 2px solid var(--border);
     border-radius: calc(10px * var(--ui-scale));
     background: var(--surface);
