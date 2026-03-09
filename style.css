@@ -193,7 +193,7 @@ main {
     letter-spacing: calc(2px * var(--ui-scale));
     text-transform: uppercase;
     color: var(--text-muted);
-    margin-bottom: calc(16px * var(--ui-scale));
+    margin-bottom: calc(8px * var(--ui-scale));
 }
 
 .player-selector {
