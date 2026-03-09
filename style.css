@@ -182,8 +182,8 @@ main {
     background: var(--card);
     border: 1px solid var(--border);
     border-radius: calc(12px * var(--ui-scale));
-    padding: calc(20px * var(--ui-scale));
-    margin-bottom: calc(24px * var(--ui-scale));
+    padding: calc(16px * var(--ui-scale)) calc(18px * var(--ui-scale));
+    margin-bottom: calc(12px * var(--ui-scale));
 }
 
 .card-label {
