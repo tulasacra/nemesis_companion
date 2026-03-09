@@ -214,6 +214,10 @@ main {
     transition: all 0.2s;
 }
 
+.player-btn:not(:disabled):active {
+    transform: scale(0.9);
+}
+
 .player-btn.selected {
     border-color: var(--accent);
     color: var(--accent);
@@ -253,8 +257,7 @@ main {
     transition: transform 0.15s, opacity 0.15s;
 }
 
-.btn-primary:active {
-    transform: scale(0.97);
+.btn-primary:not(:disabled):active {
     opacity: 0.85;
 }
 
@@ -573,7 +576,7 @@ main {
 }
 
 .research-card:not(.revealed):active {
-    transform: scale(0.94);
+    transform: scale(0.9);
 }
 
 .research-card.revealed {
@@ -895,9 +898,12 @@ main {
     transition: transform 0.15s, opacity 0.15s;
 }
 
-.btn-secondary:active {
-    transform: scale(0.97);
+.btn-secondary:not(:disabled):active {
     opacity: 0.85;
+}
+
+button:not(.tab-btn):not(:disabled):active {
+    transform: scale(0.9);
 }
 
 .bag-buttons {
