@@ -258,6 +258,10 @@ main {
     opacity: 0.85;
 }
 
+#new-game-btn:active:not(:disabled) {
+    opacity: 0.4;
+}
+
 .btn-primary:disabled {
     opacity: 0.4;
     cursor: default;
@@ -790,7 +794,11 @@ main {
 }
 
 .bag-btn:active {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: var(--bg);
     transform: scale(0.9);
+    opacity: 0.4;
 }
 
 .bag-total {
