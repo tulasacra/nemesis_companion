@@ -13,6 +13,7 @@
     --hit: #ff8800;
     --critical: #ff2244;
     --silence: #00c9a7;
+    --accent-disabled-fill: color-mix(in srgb, var(--accent) 40%, var(--bg));
     --ui-scale: 1;
     --tab-height: calc(60px * var(--ui-scale));
 }
@@ -96,7 +97,7 @@ main {
     background: none;
     color: var(--text-muted);
     cursor: pointer;
-    transition: color 0.2s;
+    transition: transform 0.15s, color 0.2s;
 }
 
 .tab-btn:last-child {
@@ -211,13 +212,23 @@ main {
     font-size: calc(18px * var(--ui-scale));
     font-weight: 700;
     cursor: pointer;
-    transition: all 0.2s;
+    transition: transform 0.15s, border-color 0.2s, background 0.2s, color 0.2s;
 }
 
 .player-btn.selected {
     border-color: var(--accent);
     color: var(--accent);
     background: var(--accent-dim);
+}
+
+.tab-btn:active,
+.tab-btn.is-pressed {
+    transform: scale(0.9);
+}
+
+.player-btn:active,
+.player-btn.is-pressed {
+    transform: scale(0.9);
 }
 
 .setup-hint {
@@ -250,11 +261,12 @@ main {
     font-weight: 800;
     letter-spacing: calc(3px * var(--ui-scale));
     cursor: pointer;
-    transition: transform 0.15s, opacity 0.15s;
+    transition: transform 0.15s, opacity 0.15s, background 0.15s;
 }
 
-.btn-primary:active {
-    transform: scale(0.97);
+.btn-primary:active,
+.btn-primary.is-pressed {
+    transform: scale(0.9);
     opacity: 0.85;
 }
 
@@ -262,6 +274,10 @@ main {
     opacity: 0.4;
     cursor: default;
     transform: none;
+}
+
+.btn-primary:disabled.is-pressed {
+    transform: scale(0.9);
 }
 
 /* ===== Dice Tab ===== */
@@ -786,10 +802,11 @@ main {
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: all 0.15s;
+    transition: transform 0.15s, border-color 0.15s, background 0.15s, color 0.15s;
 }
 
-.bag-btn:active {
+.bag-btn:active,
+.bag-btn.is-pressed {
     transform: scale(0.9);
 }
 
@@ -895,9 +912,25 @@ main {
     transition: transform 0.15s, opacity 0.15s;
 }
 
-.btn-secondary:active {
-    transform: scale(0.97);
+.btn-secondary:active,
+.btn-secondary.is-pressed {
+    transform: scale(0.9);
     opacity: 0.85;
+}
+
+button.is-release-disabled {
+    pointer-events: none;
+    cursor: default;
+}
+
+#new-game-btn.is-release-disabled {
+    background: var(--accent-disabled-fill);
+    opacity: 1;
+}
+
+.bag-btn.is-release-disabled {
+    background: var(--accent-disabled-fill);
+    border-color: var(--accent-disabled-fill);
 }
 
 .bag-buttons {
