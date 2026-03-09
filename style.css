@@ -96,7 +96,7 @@ main {
     background: none;
     color: var(--text-muted);
     cursor: pointer;
-    transition: color 0.2s;
+    transition: transform 0.15s, color 0.2s;
 }
 
 .tab-btn:last-child {
@@ -211,13 +211,23 @@ main {
     font-size: calc(18px * var(--ui-scale));
     font-weight: 700;
     cursor: pointer;
-    transition: all 0.2s;
+    transition: transform 0.15s, border-color 0.2s, background 0.2s, color 0.2s;
 }
 
 .player-btn.selected {
     border-color: var(--accent);
     color: var(--accent);
     background: var(--accent-dim);
+}
+
+.tab-btn:active,
+.tab-btn.is-pressed {
+    transform: translateY(calc(2px * var(--ui-scale)));
+}
+
+.player-btn:active,
+.player-btn.is-pressed {
+    transform: translateY(calc(2px * var(--ui-scale)));
 }
 
 .setup-hint {
@@ -253,8 +263,9 @@ main {
     transition: transform 0.15s, opacity 0.15s;
 }
 
-.btn-primary:active {
-    transform: scale(0.97);
+.btn-primary:active,
+.btn-primary.is-pressed {
+    transform: translateY(calc(2px * var(--ui-scale))) scale(0.97);
     opacity: 0.85;
 }
 
@@ -786,11 +797,12 @@ main {
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: all 0.15s;
+    transition: transform 0.15s, border-color 0.15s, background 0.15s, color 0.15s;
 }
 
-.bag-btn:active {
-    transform: scale(0.9);
+.bag-btn:active,
+.bag-btn.is-pressed {
+    transform: translateY(calc(1px * var(--ui-scale))) scale(0.9);
 }
 
 .bag-total {
@@ -895,8 +907,9 @@ main {
     transition: transform 0.15s, opacity 0.15s;
 }
 
-.btn-secondary:active {
-    transform: scale(0.97);
+.btn-secondary:active,
+.btn-secondary.is-pressed {
+    transform: translateY(calc(2px * var(--ui-scale))) scale(0.97);
     opacity: 0.85;
 }
 

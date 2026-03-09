@@ -141,6 +141,60 @@
         return Math.max(min, Math.min(max, value));
     }
 
+    var PRESSABLE_SELECTOR = 'button';
+    var PRESS_FEEDBACK_MS = 140;
+    var activePressedButton = null;
+    var keyboardPressedButton = null;
+    var pressStartTimes = new WeakMap();
+    var pressTimers = new WeakMap();
+
+    function isPressKey(event) {
+        return event.key === 'Enter' || event.key === ' ' || event.key === 'Spacebar';
+    }
+
+    function getPressableButton(target) {
+        return target && target.closest ? target.closest(PRESSABLE_SELECTOR) : null;
+    }
+
+    function clearPressTimer(button) {
+        var timer = pressTimers.get(button);
+        if (timer) {
+            clearTimeout(timer);
+            pressTimers.delete(button);
+        }
+    }
+
+    function isInteractiveButton(button) {
+        return !!button && button.matches(PRESSABLE_SELECTOR) && !button.disabled;
+    }
+
+    function startButtonPress(button) {
+        if (!isInteractiveButton(button)) return;
+        clearPressTimer(button);
+        pressStartTimes.set(button, Date.now());
+        button.classList.add('is-pressed');
+    }
+
+    function finishButtonPress(button, immediate) {
+        var delay;
+
+        function releaseButton() {
+            clearPressTimer(button);
+            button.classList.remove('is-pressed');
+            pressStartTimes.delete(button);
+        }
+
+        if (!button) return;
+        clearPressTimer(button);
+        if (!button.classList.contains('is-pressed')) return;
+        delay = immediate ? 0 : Math.max(0, PRESS_FEEDBACK_MS - (Date.now() - (pressStartTimes.get(button) || 0)));
+        if (delay === 0) {
+            releaseButton();
+            return;
+        }
+        pressTimers.set(button, setTimeout(releaseButton, delay));
+    }
+
     function updateUiScale() {
         var width = Math.max(window.innerWidth || 0, 1);
         var height = Math.max(window.innerHeight || 0, 1);
@@ -620,8 +674,64 @@
 
     // ===== Init =====
 
+    function bindPressFeedback() {
+        document.addEventListener('pointerdown', function (event) {
+            var button = getPressableButton(event.target);
+            if (!isInteractiveButton(button)) return;
+            if (activePressedButton && activePressedButton !== button) {
+                finishButtonPress(activePressedButton, true);
+            }
+            activePressedButton = button;
+            startButtonPress(button);
+        }, true);
+
+        document.addEventListener('pointerup', function () {
+            if (!activePressedButton) return;
+            finishButtonPress(activePressedButton, false);
+            activePressedButton = null;
+        }, true);
+
+        document.addEventListener('pointercancel', function () {
+            if (!activePressedButton) return;
+            finishButtonPress(activePressedButton, true);
+            activePressedButton = null;
+        }, true);
+
+        document.addEventListener('keydown', function (event) {
+            var button;
+            if (event.repeat || !isPressKey(event)) return;
+            button = getPressableButton(event.target);
+            if (!isInteractiveButton(button)) return;
+            keyboardPressedButton = button;
+            startButtonPress(button);
+        });
+
+        document.addEventListener('keyup', function (event) {
+            var button;
+            if (!isPressKey(event)) return;
+            button = keyboardPressedButton || getPressableButton(event.target);
+            if (!button) return;
+            finishButtonPress(button, false);
+            if (keyboardPressedButton === button) {
+                keyboardPressedButton = null;
+            }
+        });
+
+        window.addEventListener('blur', function () {
+            if (activePressedButton) {
+                finishButtonPress(activePressedButton, true);
+                activePressedButton = null;
+            }
+            if (keyboardPressedButton) {
+                finishButtonPress(keyboardPressedButton, true);
+                keyboardPressedButton = null;
+            }
+        });
+    }
+
     function init() {
         updateUiScale();
+        bindPressFeedback();
 
         $$('.tab-btn').forEach(function (btn) {
             btn.addEventListener('click', function () { switchTab(btn.dataset.tab); });
