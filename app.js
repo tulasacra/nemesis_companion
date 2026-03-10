@@ -142,7 +142,7 @@
     }
 
     var PRESS_DISABLE_MS = 500;
-    var BAG_COUNT_HIGHLIGHT_MS = 4000;
+    var BAG_COUNT_HIGHLIGHT_MS = 500;
     var bagButtonLocks = {};
     var bagCountHighlights = {};
 
