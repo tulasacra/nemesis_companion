@@ -1,14 +1,20 @@
 # Nemesis Companion
 For personal use, unofficial fan app.
 
-A mobile-friendly companion app for the board game **Nemesis**.
+A mobile-friendly companion for the board game **Nemesis**.
+The main purpose is to reduce overhead and make setup and gameplay faster.
 
 ## Features
 
-- **Settings** — Choose number of players (1-5), start a new game
-- **Dice** — Roll the Noise die or Attack die with animated results
-- **Objectives** — Randomly assigns one cooperative objective per player each game
-- **Intruder Research** — Three research objects to tap-reveal random weaknesses
+- **Settings** — Players (1–6), turn limit (8/12/16/20/24)
+- **Dice** — Noise die and Attack die with animated results.
+- **Objectives** — One random cooperative objective per player.
+- **Weaknesses** — Three research objects to reveal random weaknesses.
+- **Intruders** — Draw from the intruder bag (Encounter / Development), turn tracker, bag contents.
+
+## PWA
+
+Installable on mobile devices.
 
 ## Run locally
 
@@ -27,4 +33,8 @@ Then open `http://localhost:8080` in a browser.
 3. Choose the **main** branch and **/ (root)** folder
 4. Click **Save**
 
-The site will be live at `https://<username>.github.io/nemesis_companion/`
+The site will be live at `https://<username>.github.io/nemesis_companion/`.
+
+## Tech
+
+Vanilla HTML, CSS, and JavaScript. No build step, no dependencies.
