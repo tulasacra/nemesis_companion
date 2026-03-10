@@ -744,7 +744,6 @@ main {
     border: 2px solid transparent;
     border-radius: inherit;
     background: transparent;
-    opacity: 0;
     pointer-events: none;
     z-index: 0;
 }
@@ -764,7 +763,7 @@ main {
 }
 
 .bag-token-row-highlight .bag-token-count {
-    color: var(--accent);
+    animation: bagTokenCountHighlightFade 0.5s ease forwards;
 }
 
 .bag-token-label,
@@ -774,9 +773,7 @@ main {
 }
 
 .bag-token-row-highlight .bag-btn {
-    border-color: var(--accent);
-    color: var(--accent);
-    background: var(--accent-dim);
+    animation: bagButtonHighlightFade 0.5s ease forwards;
 }
 
 .bag-token-label {
@@ -1086,9 +1083,33 @@ button:not(.tab-btn):not(:disabled):active {
 
 @keyframes bagRowHighlightFade {
     from {
-        opacity: 1;
+        border-color: var(--accent);
+        background-color: var(--accent-dim);
     }
     to {
-        opacity: 0;
+        border-color: transparent;
+        background-color: transparent;
+    }
+}
+
+@keyframes bagTokenCountHighlightFade {
+    from {
+        color: var(--accent);
+    }
+    to {
+        color: var(--text);
+    }
+}
+
+@keyframes bagButtonHighlightFade {
+    from {
+        border-color: var(--accent);
+        color: var(--accent);
+        background: var(--accent-dim);
+    }
+    to {
+        border-color: var(--border);
+        color: var(--text);
+        background: var(--surface);
     }
 }
