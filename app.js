@@ -384,8 +384,10 @@
             var desc = obj.description;
             desc = desc.split(' OR ').join(' OR<br>');
             return '<div class="objective-card">' +
+                '<div class="objective-copy">' +
                 '<div class="objective-name">' + (i + 1) + '. ' + obj.name + '</div>' +
                 '<div class="objective-desc">' + desc + '</div>' +
+                '</div>' +
                 (obj.flavor ? '<div class="objective-flavor">' + obj.flavor + '</div>' : '') +
                 '</div>';
         }).join('');
