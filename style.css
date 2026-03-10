@@ -497,6 +497,9 @@ main {
     padding: calc(16px * var(--ui-scale)) calc(18px * var(--ui-scale));
     margin-bottom: calc(12px * var(--ui-scale));
     animation: fadeSlideIn 0.3s ease both;
+    display: grid;
+    grid-template-rows: 1fr auto;
+    min-height: calc(168px * var(--ui-scale));
 }
 
 .objective-card:nth-child(2) { animation-delay: 0.05s; }
@@ -510,6 +513,10 @@ main {
     font-weight: 700;
     margin-bottom: calc(4px * var(--ui-scale));
     color: var(--accent);
+}
+
+.objective-copy {
+    display: block;
 }
 
 .objective-desc {
