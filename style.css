@@ -237,9 +237,8 @@ main {
 
 .settings-footer {
     margin-top: auto;
-    padding-top: calc(32px * var(--ui-scale));
     text-align: center;
-    font-size: calc(11px * var(--ui-scale));
+    font-size: calc(12px * var(--ui-scale));
     color: var(--text-muted);
 }
 
@@ -526,8 +525,8 @@ main {
 }
 
 .objectives-footer {
-    margin-top: calc(24px * var(--ui-scale));
-    padding: calc(16px * var(--ui-scale));
+    margin-top: calc(14px * var(--ui-scale));
+    padding: 0 calc(16px * var(--ui-scale));
     font-size: calc(12px * var(--ui-scale));
     color: var(--text-muted);
     line-height: 1.5;
