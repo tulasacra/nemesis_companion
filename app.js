@@ -141,6 +141,15 @@
         return Math.max(min, Math.min(max, value));
     }
 
+    function preventTouchContextMenu() {
+        function blockContextMenu(event) {
+            if (event.cancelable) event.preventDefault();
+            event.stopPropagation();
+        }
+        window.addEventListener('contextmenu', blockContextMenu, true);
+        document.addEventListener('contextmenu', blockContextMenu, true);
+    }
+
     var PRESS_DISABLE_MS = 500;
     var bagButtonLocks = {};
 
@@ -654,6 +663,7 @@
 
     function init() {
         updateUiScale();
+        preventTouchContextMenu();
 
         $$('.tab-btn').forEach(function (btn) {
             btn.addEventListener('click', function () { switchTab(btn.dataset.tab); });
