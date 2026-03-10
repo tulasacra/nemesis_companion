@@ -499,7 +499,6 @@ main {
     animation: fadeSlideIn 0.3s ease both;
     display: grid;
     grid-template-rows: 1fr auto;
-    min-height: calc(168px * var(--ui-scale));
 }
 
 .objective-card:nth-child(2) { animation-delay: 0.05s; }
