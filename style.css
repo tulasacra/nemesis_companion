@@ -689,6 +689,14 @@ main {
 #bag-drawn.type-breeder { color: var(--danger); }
 #bag-drawn.type-queen { color: var(--critical); }
 
+#bag-drawn.bag-drawn-timer-end-wrap .bag-drawn-timer-end {
+    color: var(--critical);
+}
+
+#bag-drawn-name.timer-end {
+    color: var(--critical);
+}
+
 #bag-drawn-label {
     margin-bottom: calc(8px * var(--ui-scale));
     font-size: calc(11px * var(--ui-scale));

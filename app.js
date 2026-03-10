@@ -561,12 +561,22 @@
         }
 
         setTimeout(function () {
-            labelEl.textContent = mode === 'encounter' ? 'ENCOUNTER' : 'DEVELOPMENT';
-            drawnEl.innerHTML = tokenSvg(drawn.id);
-            drawnEl.className = 'type-' + drawn.id;
-            nameEl.textContent = drawn.name.toUpperCase() + (drawnSurpriseValue !== null ? ' ' + drawnSurpriseValue : '');
-            nameEl.className = 'type-' + drawn.id;
-            effectEl.textContent = effectText;
+            var timerReachedZero = mode === 'development' && currentTurn === 1;
+            if (timerReachedZero) {
+                labelEl.textContent = '\u00a0';
+                drawnEl.innerHTML = '<svg class="turn-tracker-icon turn-tracker-icon-end bag-drawn-timer-end" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4v16M19 4v16M5 4L12 12L5 20M19 4L12 12L19 20"/></svg>';
+                drawnEl.className = 'bag-drawn-timer-end-wrap';
+                nameEl.textContent = 'HYPERSPACE JUMP';
+                nameEl.className = 'timer-end';
+                effectEl.textContent = '\u00a0';
+            } else {
+                labelEl.textContent = mode === 'encounter' ? 'ENCOUNTER' : 'DEVELOPMENT';
+                drawnEl.innerHTML = tokenSvg(drawn.id);
+                drawnEl.className = 'type-' + drawn.id;
+                nameEl.textContent = drawn.name.toUpperCase() + (drawnSurpriseValue !== null ? ' ' + drawnSurpriseValue : '');
+                nameEl.className = 'type-' + drawn.id;
+                effectEl.textContent = effectText;
+            }
             if (mode === 'development') {
                 setTurn(Math.max(0, currentTurn - 1));
             }
