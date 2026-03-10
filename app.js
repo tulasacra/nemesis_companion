@@ -385,12 +385,12 @@
 
     function renderObjectives() {
         var el = $('#objectives-list');
-        var footer = $('#objectives-footer');
-        var signalsNote = $('#objectives-footer-signals');
+        var hint = $('#objectives-hint');
+        var signalsNote = $('#objectives-hint-signals');
         if (!objectives.length) {
             el.innerHTML = '<p class="placeholder">Press NEW GAME in Settings<br>to assign cooperative objectives</p>';
             el.classList.remove('objectives-list--multi');
-            if (footer) footer.style.display = 'none';
+            if (hint) hint.style.display = 'none';
             if (signalsNote) signalsNote.style.display = 'none';
             return;
         }
@@ -406,7 +406,7 @@
                 (obj.flavor ? '<div class="objective-flavor">' + obj.flavor + '</div>' : '') +
                 '</div>';
         }).join('');
-        if (footer) footer.style.display = objectives.length > 1 ? '' : 'none';
+        if (hint) hint.style.display = objectives.length > 1 ? '' : 'none';
         if (signalsNote) {
             var hasSignalObjectives = objectives.some(function (o) { return o.description.indexOf('Send the Signal') !== -1; });
             signalsNote.style.display = objectives.length > 1 && hasSignalObjectives ? '' : 'none';

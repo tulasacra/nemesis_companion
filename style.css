@@ -524,7 +524,7 @@ main {
     line-height: 1.5;
 }
 
-.objectives-footer {
+.objectives-hint {
     margin-top: calc(14px * var(--ui-scale));
     padding: 0 calc(16px * var(--ui-scale));
     font-size: calc(12px * var(--ui-scale));
