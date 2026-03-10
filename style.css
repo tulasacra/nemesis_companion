@@ -227,7 +227,7 @@ main {
 
 .setup-hint {
     margin-top: calc(14px * var(--ui-scale));
-    padding: 0 calc(8px * var(--ui-scale));
+    padding: 0 calc(16px * var(--ui-scale));
     text-align: left;
     font-size: calc(12px * var(--ui-scale));
     line-height: 1.5;

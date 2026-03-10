@@ -322,7 +322,7 @@
                 if (type === 'noise') {
                     var hintEl = $('#die-noise-hint');
                     if (result.type === 'number') {
-                        hintEl.textContent = 'Place a Noise marker in an adjacent Corridor #' + result.value + '.';
+                        hintEl.textContent = 'Place a Noise marker in the adjacent Corridor #' + result.value + '.';
                     } else if (result.type === 'danger') {
                         hintEl.textContent = 'Move all out of combat Intruders from neighboring Rooms to this Room.\nIf there are no such Intruders present, place a Noise marker in each adjacent Corridor without a Noise marker.';
                     } else {
