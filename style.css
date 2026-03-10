@@ -732,7 +732,6 @@ main {
     justify-content: space-between;
     padding: calc(8px * var(--ui-scale)) calc(10px * var(--ui-scale));
     margin: 0 calc(-10px * var(--ui-scale));
-    border-bottom: 1px solid var(--border);
     border-radius: calc(10px * var(--ui-scale));
     isolation: isolate;
 }
@@ -748,8 +747,24 @@ main {
     z-index: 0;
 }
 
+.bag-token-row::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 1px;
+    background: var(--border);
+    pointer-events: none;
+    z-index: 0;
+}
+
 .bag-token-row:last-child {
     border-bottom: none;
+}
+
+.bag-token-row:last-child::after {
+    display: none;
 }
 
 .bag-token-row-highlight {
