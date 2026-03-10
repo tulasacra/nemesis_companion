@@ -770,10 +770,19 @@ main {
 }
 
 .bag-token-count {
+    display: inline-block;
     font-size: calc(16px * var(--ui-scale));
     font-weight: 700;
     min-width: calc(24px * var(--ui-scale));
     text-align: center;
+}
+
+.bag-token-count-highlight {
+    color: #11ff88;
+    text-shadow: 0 0 calc(10px * var(--ui-scale)) rgba(17, 255, 136, 0.95);
+    background: rgba(17, 255, 136, 0.16);
+    border-radius: calc(6px * var(--ui-scale));
+    box-shadow: inset 0 0 0 1px rgba(17, 255, 136, 0.45);
 }
 
 .bag-btn {

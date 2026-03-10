@@ -1,9 +1,9 @@
-var CACHE_NAME = 'nemesis-v3';
+var CACHE_NAME = 'nemesis-v6';
 var ASSETS = [
     './',
     './index.html',
-    './style.css',
-    './app.js',
+    './style.css?v=20260309-bag-highlight-v3',
+    './app.js?v=20260309-bag-highlight-v3',
     './manifest.json',
     './icons/icon-192.png',
     './icons/icon-512.png'

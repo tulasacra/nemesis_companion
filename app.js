@@ -142,7 +142,9 @@
     }
 
     var PRESS_DISABLE_MS = 500;
+    var BAG_COUNT_HIGHLIGHT_MS = 4000;
     var bagButtonLocks = {};
+    var bagCountHighlights = {};
 
     function disableButtonTemporarily(btn, duration) {
         if (!btn) return;
@@ -167,6 +169,39 @@
             }
             renderBag();
         }, duration);
+    }
+
+    function snapshotBagCounts() {
+        var snapshot = {};
+        BAG_TOKEN_TYPES.forEach(function (t) {
+            snapshot[t.id] = bag[t.id] || 0;
+        });
+        return snapshot;
+    }
+
+    function changedBagIds(previousBag) {
+        return BAG_TOKEN_TYPES.filter(function (t) {
+            return (previousBag[t.id] || 0) !== (bag[t.id] || 0);
+        }).map(function (t) {
+            return t.id;
+        });
+    }
+
+    function isBagCountHighlighted(id) {
+        return (bagCountHighlights[id] || 0) > Date.now();
+    }
+
+    function highlightBagCounts(ids, duration) {
+        ids.forEach(function (id) {
+            var expiresAt = Date.now() + duration;
+            bagCountHighlights[id] = expiresAt;
+            setTimeout(function () {
+                if (bagCountHighlights[id] === expiresAt && expiresAt <= Date.now()) {
+                    delete bagCountHighlights[id];
+                    renderBag();
+                }
+            }, duration);
+        });
     }
 
     function updateUiScale() {
@@ -420,6 +455,7 @@
 
     function resetBag() {
         bag = {};
+        bagCountHighlights = {};
         var d = defaultBag();
         for (var k in d) bag[k] = d[k];
         $('#bag-drawn').textContent = '?';
@@ -444,6 +480,7 @@
             showToast('Bag is empty!');
             return;
         }
+        var previousBag = snapshotBagCounts();
         var encBtn = $('#encounter-btn');
         var devBtn = $('#development-btn');
         encBtn.disabled = true;
@@ -534,6 +571,8 @@
             }
         }
 
+        var changedIds = changedBagIds(previousBag);
+
         setTimeout(function () {
             labelEl.textContent = mode === 'encounter' ? 'ENCOUNTER' : 'DEVELOPMENT';
             drawnEl.innerHTML = tokenSvg(drawn.id);
@@ -544,13 +583,16 @@
             if (mode === 'development') {
                 setTurn(Math.max(0, currentTurn - 1));
             }
+            highlightBagCounts(changedIds, BAG_COUNT_HIGHLIGHT_MS);
             renderBag();
             saveState();
         }, 2000);
     }
 
     function adjustBag(id, delta) {
+        var previousBag = snapshotBagCounts();
         bag[id] = Math.max(0, (bag[id] || 0) + delta);
+        highlightBagCounts(changedBagIds(previousBag), BAG_COUNT_HIGHLIGHT_MS);
         renderBag();
         saveState();
     }
@@ -618,6 +660,7 @@
             var count = bag[t.id] || 0;
             var minusLocked = isBagButtonLocked(t.id, -1);
             var plusLocked = isBagButtonLocked(t.id, 1);
+            var countClass = 'bag-token-count' + (isBagCountHighlighted(t.id) ? ' bag-token-count-highlight' : '');
             return '<div class="bag-token-row">' +
                 '<div class="bag-token-label type-' + t.id + '">' +
                     '<span class="bag-token-icon">' + tokenSvg(t.id) + '</span>' +
@@ -625,7 +668,7 @@
                 '</div>' +
                 '<div class="bag-token-controls">' +
                 '<button class="bag-btn" data-id="' + t.id + '" data-delta="-1"' + (minusLocked ? ' disabled' : '') + '>\u2212</button>' +
-                '<span class="bag-token-count">' + count + '</span>' +
+                '<span class="' + countClass + '">' + count + '</span>' +
                 '<button class="bag-btn" data-id="' + t.id + '" data-delta="1"' + (plusLocked ? ' disabled' : '') + '>+</button>' +
                 '</div>' +
                 '</div>';
