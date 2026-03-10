@@ -169,6 +169,21 @@
         }, duration);
     }
 
+    function highlightBagRow(id, duration) {
+        requestAnimationFrame(function () {
+            requestAnimationFrame(function () {
+                var row = $('#bag-tokens .bag-token-row[data-id="' + id + '"]');
+                if (!row) return;
+                row.classList.remove('bag-token-row-highlight');
+                void row.offsetWidth;
+                row.classList.add('bag-token-row-highlight');
+                setTimeout(function () {
+                    row.classList.remove('bag-token-row-highlight');
+                }, duration);
+            });
+        });
+    }
+
     function updateUiScale() {
         var width = Math.max(window.innerWidth || 0, 1);
         var height = Math.max(window.innerHeight || 0, 1);
@@ -550,9 +565,13 @@
     }
 
     function adjustBag(id, delta) {
-        bag[id] = Math.max(0, (bag[id] || 0) + delta);
+        var current = bag[id] || 0;
+        var next = Math.max(0, current + delta);
+        if (next === current) return;
+        bag[id] = next;
         renderBag();
         saveState();
+        highlightBagRow(id, PRESS_DISABLE_MS);
     }
 
     // ===== Turn Tracker =====
@@ -618,7 +637,7 @@
             var count = bag[t.id] || 0;
             var minusLocked = isBagButtonLocked(t.id, -1);
             var plusLocked = isBagButtonLocked(t.id, 1);
-            return '<div class="bag-token-row">' +
+            return '<div class="bag-token-row" data-id="' + t.id + '">' +
                 '<div class="bag-token-label type-' + t.id + '">' +
                     '<span class="bag-token-icon">' + tokenSvg(t.id) + '</span>' +
                     '<span class="bag-token-name">' + t.name + '</span>' +
